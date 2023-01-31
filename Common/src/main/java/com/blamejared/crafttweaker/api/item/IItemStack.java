@@ -45,9 +45,9 @@ import java.util.stream.Collectors;
 /**
  * Represents an in-game item stack. This is what you want 99% of the time when dealing with recipes.
  *
- * IItemStacks can be obtained through bracket handlers prefixed with `item`. For example, `<item:minecraft:diamond>` represents an item stack containing one diamond.
+ * <p>IItemStacks can be obtained through bracket handlers prefixed with {@code item}. For example, {@code <item:minecraft:diamond>} represents an item stack containing one diamond.</p>
  *
- * Note that some methods, such as `setMaxStackSize()`, will affect the item of this IItemStack (and thus work for all stacks), while others, such as `addAttributeModifier()`, actually work only for that particular stack. Make sure to read the descriptions carefully!
+ * <p>Note that some methods, such as {@code setMaxStackSize()}, will affect the item of this IItemStack (and thus work for all stacks), while others, such as {@code addAttributeModifier()}, actually work only for that particular stack. Make sure to read the descriptions carefully!</p>
  */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.item.IItemStack")
@@ -90,7 +90,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     IItemStack copy();
     
     /**
-     * Returns the registry name for this IItemStack's item. For example, `<item:minecraft:diamond>.getRegistryName()` will return a {@link ResourceLocation} with the string contents `"minecraft:diamond"`.
+     * Returns the registry name for this IItemStack's item. This is the item's id that shows up when advanced tooltips (F3+H) are enabled.
      *
      * @return The registry name of this IItemStack's item.
      */
@@ -101,7 +101,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the owning mod (a.k.a. mod id) for this IItemStack's item. For example, `<item:minecraft:diamond>.getOwner()` will return `"minecraft"`, and `<item:create:zinc_ingot>` will return `"create"`.
+     * Returns the owning mod (a.k.a. mod id) for this IItemStack's item.
      *
      * @return The owning mod of this IItemStack's item.
      */
@@ -112,9 +112,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is empty or not. The item of empty IItemStacks typically is `"minecraft:air"`, which means that `<item:minecraft:air>.isEmpty()` will always return `true`.
+     * Returns whether this IItemStack is empty or not. Empty IItemStacks have the item {@code "minecraft:air"}.
      *
-     * @return `true` if this IItemStack is empty, `false` if not.
+     * @return {@code true} if this IItemStack is empty, {@code false} if not.
      */
     @Override
     default boolean isEmpty() {
@@ -123,7 +123,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the max stack size of this IItemStack's item. For example, `<item:minecraft:diamond>.getMaxStackSize()` will return `64`, and `<item:minecraft:diamond_sword>` will return `1`.
+     * Returns the max stack size of this IItemStack's item.
      *
      * @return The max stack size of this IItemStack's item.
      */
@@ -135,9 +135,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the max stack size of this IItemStack's item. Values greater than 64 are generally not recommended. For example, `<item:minecraft:egg>.setMaxStackSize(64)` will allow eggs to stack to 64.
+     * Sets the max stack size of this IItemStack's item. Values greater than 64 are generally not recommended.
      *
      * @param newMaxStackSize The new max stack size of this IItemStack's item.
+     *
+     * @docParam newMaxStackSize 16
      */
     @ZenCodeType.Method
     @ZenCodeType.Setter("maxStackSize")
@@ -149,7 +151,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the {@link Rarity} of this IItemStack's item. An item's {@link Rarity} mainly determines its name color. For example, `<item:minecraft:diamond>.getRarity()` will return `<constant:minecraft:item/rarity:common>`, and `<item:minecraft:command_block>.getRarity()` will return `<constant:minecraft:item/rarity:epic>`.
+     * Returns the {@link Rarity} of this IItemStack's item. This mainly determines an item's name color, see the documentation on {@link Rarity} for more information.
      *
      * @return The {@link Rarity} of this IItemStack's item.
      */
@@ -161,9 +163,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the {@link Rarity} of this IItemStack's item. An item's {@link Rarity} mainly determines its name color. For example, `<item:minecraft:diamond>.setRarity(<constant:minecraft:item/rarity:uncommon>)` will set the rarity of diamonds to `uncommon` (yellow name).
+     * Sets the {@link Rarity} of this IItemStack's item. This mainly determines an item's name color.
      *
      * @param newRarity The new {@link Rarity} of this IItemStack's item.
+     * 
+     * @docParam newRarity <constant:minecraft:item/rarity:uncommon>
      */
     @ZenCodeType.Method
     @ZenCodeType.Setter("rarity")
@@ -177,13 +181,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     /**
      * Sets the lore of this IItemStack. Lore is basically an extra tooltip that is stored in NBT rather than being added through code. The parameter is a vararg, every argument will result in one line of lore.
      *
-     * Example usage:
-     * ```zenscript
-     * <item:minecraft:oak_log>.withLore(Component.literal("I am the lore. I speak for the trees."));
-     * <item:minecraft:spruce_log>.withLore(Component.literal("I am the lore.", "I speak for the trees.", "I do so in multiple lines."));
-     * ```
-     *
      * @param lore The new Lore of this IItemStack. This is a vararg, so you can add as many arguments as you need.
+     * 
+     * @docParam lore Component.literal("I am the lore.", "I speak for the trees.", "I do so in multiple lines.")
      */
     @ZenCodeType.Method
     default IItemStack withLore(@ZenCodeType.Nullable Component... lore) {
@@ -214,9 +214,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the display name of this IItemStack. For example, `<item:minecraft:grass_block>.withDisplayName(Component.literal("Premium Dirt"))` will use the display name `Premium Dirt` instead of `Grass Block`.
+     * Sets the display name of this IItemStack. This is what the player will see as the item's name when hovering over it.
      *
      * @param name The new display name of this IItemStack.
+     * 
+     * @docParam name Component.literal("Premium Item")
      */
     @ZenCodeType.Method
     default IItemStack withDisplayName(Component name) {
@@ -225,7 +227,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the hover name of this IItemStack. This will give the raw name, without the formatting that `getDisplayName()` applies.
+     * Returns the hover name of this IItemStack. This will give the raw name, without the formatting that {@code getDisplayName()} applies.
      *
      * @return The hover name of this IItemStack.
      */
@@ -248,7 +250,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     /**
      * Returns whether this IItemStack has a custom display name or not.
      *
-     * @return `true` if this IItemStack has a custom display name, `false` if not.
+     * @return {@code true} if this IItemStack has a custom display name, {@code false} if not.
      */
     @ZenCodeType.Getter("hasCustomHoverName")
     default boolean hasDisplayName() {
@@ -257,9 +259,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack has a foil effect (enchantment glint) or not. Mostly identical with `isEnchanted()`, however, some items have a foil effect on their own (for example enchanted golden apples). For example, `<item:minecraft:enchanted_book>.hasFoil()` will return `true`.
+     * Returns whether this IItemStack has a foil effect (enchantment glint) or not. Mostly identical with {@code isEnchanted()}, however, some items have a foil effect on their own (such as enchanted golden apples).
      *
-     * @return `true` if this IItemStack has a foil effect, `false` if not.
+     * @return {@code true} if this IItemStack has a foil effect, {@code false} if not.
      */
     @ZenCodeType.Getter("hasFoil")
     default boolean hasFoil() {
@@ -268,9 +270,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack can be enchanted or not. For example, `<item:minecraft:diamond_sword>.isEnchantable()` will return `true`.
+     * Returns whether this IItemStack can be enchanted or not.
      *
-     * @return `true` if this IItemStack has a custom display name, `false` if not.
+     * @return {@code true} if this IItemStack has a custom display name, {@code false} if not.
      */
     @ZenCodeType.Getter("isEnchantable")
     default boolean isEnchantable() {
@@ -279,9 +281,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is enchanted or not. For example, `<item:minecraft:enchanted_book>.isEnchanted()` will return `true`.
+     * Returns whether this IItemStack is enchanted or not.
      *
-     * @return `true` if this IItemStack has a foil effect, `false` if not.
+     * @return {@code true} if this IItemStack is enchanted, {@code false} if not.
      */
     @ZenCodeType.Getter("isEnchanted")
     default boolean isEnchanted() {
@@ -290,7 +292,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the base repair cost of this IItemStack, or 0 if no base repair cost is set. The base repair cost is used in anvil repair calculations and has the value 0 for all vanilla items, but can be overridden by the `RepairCost` NBT tag. For example, `<item:minecraft:diamond_sword>.getBaseRepairCost()` will return `0`.
+     * Returns the base repair cost of this IItemStack, or 0 if no base repair cost is set. The base repair cost is used in anvil repair calculations and has the value 0 for all vanilla items, but can be overridden by the {@code RepairCost} NBT tag.
      *
      * @return The base repair cost of this IItemStack, or 0 if no base repair cost is set.
      */
@@ -301,7 +303,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the amount of this IItemStack. For example, `(<item:minecraft:diamond> * 8).getAmount()` will return `8`.
+     * Returns the amount of this IItemStack.
      *
      * @return The amount of this IItemStack.
      */
@@ -312,11 +314,13 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the amount of this IItemStack. For example, `<item:minecraft:diamond>.setAmount(8)` will return a stack of 8 diamonds.
+     * Sets the amount of this IItemStack.
      *
-     * Note: This method is equivalent to using the * operator. This means that, for example, `<item:minecraft:diamond>.setAmount(8)` and `<item:minecraft:diamond> * 8` will have the same effect.
+     * <p>Note: This method is equivalent to using the * operator. This means that, for example, {@code <item:minecraft:diamond>.setAmount(8)} and {@code <item:minecraft:diamond> * 8} will have the same effect.</p>
      *
      * @param amount The new amount of this IItemStack.
+     *
+     * @docParam amount 8
      */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.MUL)
     default IItemStack setAmount(int amount) {
@@ -325,7 +329,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Grows this IItemStack's amount by the given amount, or 1 if no amount is given. For example, `<item:minecraft:diamond>.grow(3)` will return a stack of 4 diamonds.
+     * Grows this IItemStack's amount by the given amount.
      *
      * @param amount The amount to grow this IItemStack by.
      *
@@ -338,7 +342,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Shrinks this IItemStack's amount by the given amount, or 1 if no amount is given. For example, `<item:minecraft:diamond>.shrink(1)` will return an empty item stack.
+     * Shrinks this IItemStack's amount by the given amount.
      *
      * @param amount The amount to shrink this IItemStack by.
      *
@@ -351,9 +355,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is stackable, meaning whether it have a stack size greater than 1 or not. For example, `<item:minecraft:diamond>.isStackable()` will return `true`, and `<item:minecraft:diamond_sword>.isStackable()` will return `false`.
+     * Returns whether this IItemStack is stackable, meaning whether it have a stack size greater than 1 or not.
      *
-     * @return `true` if this IItemStack is stackable, `false` if not.
+     * @return {@code true} if this IItemStack is stackable, {@code false} if not.
      */
     @ZenCodeType.Getter("stackable")
     default boolean isStackable() {
@@ -362,9 +366,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the durability damage of this IItemStack. Note that this represents the uses done so far, not the uses left. For example, `<item:minecraft:diamond_sword>.withDamage(150)` will return a diamond sword with 1411 uses left (diamond swords have 1561 uses by default).
+     * Sets the durability damage of this IItemStack. Note that this represents the uses done so far, not the uses left.
      *
      * @param damage The new durability damage of this IItemStack.
+     *
+     * @docParam damage 50
      */
     @ZenCodeType.Method
     default IItemStack withDamage(int damage) {
@@ -375,54 +381,54 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     /**
      * Adds an {@link AttributeModifier} to this IItemStack, using a specific UUID.
      *
-     * The UUID can be used to override existing attributes of an IItemStack with this new modifier. Use `/ct hand attributes` to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.
+     * <p>The UUID can be used to override existing attributes of an IItemStack with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
      *
-     * By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional `preserveDefaults` flag to `true`.
+     * <p>By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
      *
-     * Example usages:
-     * ```zenscript
-     * <item:minecraft:diamond_sword>.addAttributeModifier(<attribute:minecraft:generic.attack_damage>, "8c1b5535-9f79-448b-87ae-52d81480aaa3", "Extra Power", 10, AttributeOperation.ADDITION, [<constant:minecraft:equipmentslot:mainhand>]);
-     * ```The above example will remove the default attack damage of diamond swords and any other modifiers, leaving only this modifier.
-     * ```zenscript
-     * <item:minecraft:diamond_sword>.addAttributeModifier(<attribute:minecraft:generic.attack_damage>, "8c1b5535-9f79-448b-87ae-52d81480aaa3", "Extra Power", 10, AttributeOperation.ADDITION, [<constant:minecraft:equipmentslot:chest>], true);
-     * ```The above example will not remove the default attack damage of diamond swords, instead adding this modifier on top of the modifiers already present.
-     *
-     * @param uuid             The UUID of the modifier.
      * @param attribute        The {@link Attribute} of the modifier.
+     * @param uuid             The UUID of the modifier.
      * @param name             The name of the modifier.
      * @param value            The value of the modifier.
      * @param operation        The operation of the modifier.
      * @param slotTypes        What slots the modifier is valid for.
      * @param preserveDefaults Whether the modifiers that are already present on this IItemStack should be preserved or not.
+     *
+     * @docParam attribute <attribute:minecraft:generic.attack_damage>
+     * @docParam uuid "8c1b5535-9f79-448b-87ae-52d81480aaa3"
+     * @docParam name "Extra Power"
+     * @docParam value 10
+     * @docParam operation AttributeOperation.ADDITION
+     * @docParam slotTypes [<constant:minecraft:equipmentslot:mainhand>]
+     * @docParam preserveDefaults true
      */
     @ZenCodeType.Method
     default IItemStack withAttributeModifier(Attribute attribute, String uuid, String name, double value, AttributeModifier.Operation operation, EquipmentSlot[] slotTypes, @ZenCodeType.OptionalBoolean boolean preserveDefaults) {
         
         return withAttributeModifier(attribute, UUID.fromString(uuid), name, value, operation, slotTypes, preserveDefaults);
     }
-    
+
     /**
      * Adds an {@link AttributeModifier} to this IItemStack, using a specific UUID.
      *
-     * The UUID can be used to override existing attributes of an IItemStack with this new modifier. Use `/ct hand attributes` to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.
+     * <p>The UUID can be used to override existing attributes of an IItemStack with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
      *
-     * By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional `preserveDefaults` flag to `true`.
+     * <p>By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
      *
-     * Example usages:
-     * ```zenscript
-     * <item:minecraft:diamond_sword>.addAttributeModifier(<attribute:minecraft:generic.attack_damage>, "8c1b5535-9f79-448b-87ae-52d81480aaa3", "Extra Power", 10, AttributeOperation.ADDITION, [<constant:minecraft:equipmentslot:mainhand>]);
-     * ```The above example will remove the default attack damage of diamond swords and any other modifiers, leaving only this modifier.
-     * ```zenscript
-     * <item:minecraft:diamond_sword>.addAttributeModifier(<attribute:minecraft:generic.attack_damage>, "8c1b5535-9f79-448b-87ae-52d81480aaa3", "Extra Power", 10, AttributeOperation.ADDITION, [<constant:minecraft:equipmentslot:chest>], true);
-     * ```The above example will not remove the default attack damage of diamond swords, instead adding this modifier on top of the modifiers already present.
-     *
-     * @param uuid             The UUID of the modifier.
      * @param attribute        The {@link Attribute} of the modifier.
+     * @param uuid             The UUID of the modifier.
      * @param name             The name of the modifier.
      * @param value            The value of the modifier.
      * @param operation        The operation of the modifier.
      * @param slotTypes        What slots the modifier is valid for.
      * @param preserveDefaults Whether the modifiers that are already present on this IItemStack should be preserved or not.
+     *
+     * @docParam attribute <attribute:minecraft:generic.attack_damage>
+     * @docParam uuid "8c1b5535-9f79-448b-87ae-52d81480aaa3"
+     * @docParam name "Extra Power"
+     * @docParam value 10
+     * @docParam operation AttributeOperation.ADDITION
+     * @docParam slotTypes [<constant:minecraft:equipmentslot:mainhand>]
+     * @docParam preserveDefaults true
      */
     @ZenCodeType.Method
     default IItemStack withAttributeModifier(Attribute attribute, UUID uuid, String name, double value, AttributeModifier.Operation operation, EquipmentSlot[] slotTypes, @ZenCodeType.OptionalBoolean boolean preserveDefaults) {
@@ -439,17 +445,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Adds an {@link AttributeModifier} to this IItemStack. Unlike other overloads, which take a separate UUID parameter, this one creates a random UUID based on the given `name`.
+     * Adds an {@link AttributeModifier} to this IItemStack. Unlike other overloads, which take a separate UUID parameter, this one creates a random UUID based on the given {@code name}.
      *
-     * By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional `preserveDefaults` flag to `true`.
-     *
-     * Example usages:
-     * ```zenscript
-     * <item:minecraft:diamond_sword>.addAttributeModifier(<attribute:minecraft:generic.attack_damage>, "Extra Power", 10, AttributeOperation.ADDITION, [<constant:minecraft:equipmentslot:mainhand>]);
-     * ```The above example will remove the default attack damage of diamond swords and any other modifiers, leaving only this modifier.
-     * ```zenscript
-     * <item:minecraft:diamond_sword>.addAttributeModifier(<attribute:minecraft:generic.attack_damage>, "Extra Power", 10, AttributeOperation.ADDITION, [<constant:minecraft:equipmentslot:chest>], true);
-     * ```The above example will not remove the default attack damage of diamond swords, instead adding this modifier on top of the modifiers already present.
+     * <p>By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
      *
      * @param attribute        The {@link Attribute} of the modifier.
      * @param name             The name of the modifier.
@@ -457,6 +455,13 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
      * @param operation        The operation of the modifier.
      * @param slotTypes        What slots the modifier is valid for.
      * @param preserveDefaults Whether the modifiers that are already present on this IItemStack should be preserved or not.
+     *
+     * @docParam attribute <attribute:minecraft:generic.attack_damage>
+     * @docParam name "Extra Power"
+     * @docParam value 10
+     * @docParam operation AttributeOperation.ADDITION
+     * @docParam slotTypes [<constant:minecraft:equipmentslot:mainhand>]
+     * @docParam preserveDefaults true
      */
     @ZenCodeType.Method
     default IItemStack withAttributeModifier(Attribute attribute, String name, double value, AttributeModifier.Operation operation, EquipmentSlot[] slotTypes, @ZenCodeType.OptionalBoolean boolean preserveDefaults) {
@@ -473,7 +478,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the attributes and attribute modifiers on this IItemStack for the given {@link EquipmentSlot}. Example usage: `<item:minecraft:diamond_chestplate>.getAttributes(<constant:minecraft:equipmentslot:chest>);`
+     * Returns the attributes and attribute modifiers on this IItemStack for the given {@link EquipmentSlot}.
      *
      * @param slotType The slot to get the attributes for.
      *
@@ -492,9 +497,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is damageable or not. For example, `<item:minecraft:diamond>.isDamageable()` will return `false`, and `<item:minecraft:diamond_sword>.isDamageable()` will return `true`.
+     * Returns whether this IItemStack is damageable or not.
      *
-     * @return `true` if this IItemStack is damageable, `false` if not.
+     * @return {@code true} if this IItemStack is damageable, {@code false} if not.
      */
     @ZenCodeType.Getter("damageableItem")
     default boolean isDamageableItem() {
@@ -503,9 +508,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is damaged or not. Generally, the result of this method is equivalent to `getDamage() > 0`.
+     * Returns whether this IItemStack is damaged or not. The result of this method is equivalent to {@code getDamage() > 0}.
      *
-     * @return `true` if this IItemStack is damaged, `false` if not.
+     * @return {@code true} if this IItemStack is damaged, {@code false} if not.
      */
     @ZenCodeType.Getter("damaged")
     default boolean isDamaged() {
@@ -514,7 +519,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the max damage (a.k.a. max durability) of this IItemStack. For example, `<item:minecraft:diamond_sword>.getMaxDamage()` will return `1561`.
+     * Returns the max damage (a.k.a. max durability) of this IItemStack.
      *
      * @return The max damage of this IItemStack.
      */
@@ -525,9 +530,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the max damage (a.k.a. max durability) of this IItemStack's item. Using `0` will make the item unbreakable. For example, `<item:minecraft:diamond_sword>.setMaxDamage(1300)` will cause all diamond swords to have a max durability of `1300` instead of the default `1561`.
+     * Sets the max damage (a.k.a. max durability) of this IItemStack's item. Using {@code 0} will make the item unbreakable.
      *
      * @param newMaxDamage The new max damage of this IItemStack's item.
+     *
+     * @docParam newMaxDamage 2000
      */
     @ZenCodeType.Setter("maxDamage")
     default void setMaxDamage(int newMaxDamage) {
@@ -538,9 +545,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the unlocalized name of this IItemStack's item. This is typically the item's translation key. For example, `<item:minecraft:diamond>.getDescriptionId()` will return `"item.minecraft.diamond"`.
+     * Returns the unlocalized name (a.k.a. translation key) of this IItemStack.
      *
-     * @return The unlocalized name of this IItemStack's item.
+     * @return The unlocalized name of this IItemStack.
      */
     @ZenCodeType.Getter("descriptionId")
     default String getDescriptionId() {
@@ -549,11 +556,13 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the NBT tag for this IItemStack. For example, `<item:minecraft:potion>.withTag({Potion: "minecraft:night_vision"})` returns a 3-minute night vision potion.
+     * Sets the NBT tag for this IItemStack.
      *
      * @param tag The new tag of this IItemStack.
      *
      * @return This IItemStack if mutable, a new IItemStack with the new tag otherwise.
+     *
+     * @docParam tag {Potion: "minecraft:night_vision"}
      */
     @ZenCodeType.Method
     default IItemStack withTag(MapData tag) {
@@ -573,9 +582,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack has NBT tags or not. Generally, the result of this method is equivalent to `getTag() != null`.
+     * Returns whether this IItemStack has NBT tags or not. The result of this method is equivalent to {@code getTag() != null}.
      *
-     * @return `true` if this IItemStack has NBT tags, `false` if not.
+     * @return {@code true} if this IItemStack has NBT tags, {@code false} if not.
      */
     @ZenCodeType.Getter("hasTag")
     default boolean hasTag() {
@@ -584,9 +593,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the NBT tag of this IItemStack. If no NBT tags are present, `null` is returned.
+     * Returns the NBT tag of this IItemStack.
      *
-     * @return The NBT tag of this IItemStack, or `null` if there are no NBT tags present.
+     * @return The NBT tag of this IItemStack, or {@code null} if there are no NBT tags present.
      */
     @ZenCodeType.Nullable
     @ZenCodeType.Getter("tag")
@@ -596,7 +605,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the NBT tag of this IItemStack, or creates a new one if absent. Generally, the result of this method is equivalent to `getTag() == null ? new MapData() : getTag()`.
+     * Returns the NBT tag of this IItemStack, or creates a new one if absent. The result of this method is equivalent to {@code getTag() == null ? new MapData() : getTag()}.
      *
      * @return The NBT tag of this IItemStack, or an empty tag if there are no NBT tags present.
      */
@@ -622,7 +631,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the use duration of this IItemStack, in ticks. `72000` (1 hour) is used for items that can be used indefinitely, such as bows being drawn. For example, `<item:minecraft:bow>.getUseDuration()` will return `72000`.
+     * Returns the use duration of this IItemStack, in ticks. {@code 72000} (1 hour) is used for items that can be used indefinitely, such as bows being drawn.
      *
      * @return The use duration of this IItemStack.
      */
@@ -633,9 +642,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack's use logic is fired on release, rather than when beginning to draw. In vanilla, this will return `true` for `<item:minecraft:crossbow>.useOnRelease()` and `false` for all other items.
+     * Returns whether this IItemStack's use logic is fired on release, rather than when beginning to draw. In vanilla, this will return {@code true} for crossbows and {@code false} for all other items.
      *
-     * @return `true` if this IItemStack's use logic is fired on release, `false` if not.
+     * @return {@code true} if this IItemStack's use logic is fired on release, {@code false} if not.
      */
     @ZenCodeType.Getter("useOnRelease")
     default boolean useOnRelease() {
@@ -644,9 +653,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the {@link FoodProperties} of this IItemStack's item, or `null` if no {@link FoodProperties} are present. For example, `<item:minecraft:apple>.getFood()` will return food properties with a nutrition value of `4` and a saturation modifier of `0.3`.
+     * Returns the {@link FoodProperties} of this IItemStack's item.
      *
-     * @return The {@link FoodProperties} of this IItemStack's item, or `null` if no {@link FoodProperties} are present.
+     * @return The {@link FoodProperties} of this IItemStack's item, or {@code null} if no {@link FoodProperties} are present.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("food")
@@ -657,9 +666,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the {@link FoodProperties} for this IItemStack's item. For example, `<item:minecraft:apple>.setFood(new FoodProperties(8, 0.8))` will make apples as nutritious as steaks.
+     * Sets the {@link FoodProperties} for this IItemStack's item.
      *
-     * @param food The new {@link FoodProperties} for this IItemStack's item. If this is `null`, the item will no longer be edible.
+     * @param food The new {@link FoodProperties} for this IItemStack's item. If this is {@code null}, the item will no longer be edible.
+     *
+     * @docParam food new FoodProperties(8, 0.8)
      */
     @ZenCodeType.Method
     @ZenCodeType.Setter("food")
@@ -671,9 +682,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack's item is edible or not. Generally, the result of this method is equivalent to `getFood() != null`.
+     * Returns whether this IItemStack's item is edible or not. The result of this method is equivalent to {@code getFood() != null}.
      *
-     * @return `true` if this IItemStack's item is edible, `false` if not.
+     * @return {@code true} if this IItemStack's item is edible, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isEdible")
@@ -683,7 +694,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the burn time of this IItemStack, in ticks. For example, `<item:minecraft:oak_planks>.getBurnTime()` will return `300`.
+     * Returns the burn time of this IItemStack, in ticks.
      *
      * @return The burn time of this IItemStack.
      */
@@ -694,9 +705,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack's item is immune to fire or not. For example, `<item:minecraft:diamond>.isFireResistant()` will return `false`, and `<item:minecraft:netherite_ingot>.isFireResistant()` will return `true`.
+     * Returns whether this IItemStack's item is immune to fire or not.
      *
-     * @return `true` if this IItemStack's item is immune to fire, `false` if not.
+     * @return {@code true} if this IItemStack's item is immune to fire, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("fireResistant")
@@ -706,9 +717,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets whether this IItemStack's item should be immune to fire or not. For example, `<item:minecraft:diamond>.setFireResistant(true)` will make diamonds immune to fire, like netherite items are.
+     * Sets whether this IItemStack's item should be immune to fire or not.
      *
      * @param fireResistant Whether the IItemStack's item should be immune to fire or not.
+     *
+     * @docParam fireResistant true
      */
     @ZenCodeType.Method
     @ZenCodeType.Setter("fireResistant")
@@ -722,10 +735,13 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     /**
      * Returns a {@link Percentaged} (weighted) IItemStack with the given percentage.
      *
-     * Note: This method is equivalent to using the % operator. This means that, for example, `<item:minecraft:diamond>.percent(50)` and `<item:minecraft:diamond> % 50` will have the same effect.
+     * <p>Note: This method is equivalent to using the % operator. This means that, for example, {@code <item:minecraft:diamond>.percent(50)} and {@code <item:minecraft:diamond> % 50} will have the same effect.</p>
      *
      * @param percentage The percentage of the new IItemStack.
+     *
      * @return A {@link Percentaged} (weighted) IItemStack with the given percentage.
+     *
+     * @docParam percentage 80
      */
     @ZenCodeType.Method
     @ZenCodeType.Operator(ZenCodeType.OperatorType.MOD)
@@ -741,7 +757,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     //    }
     
     /**
-     * Returns a {@link Percentaged} (weighted) instance of this IItemStack. Generally, the result of this method is equivalent to `percent(100)`.
+     * Returns a {@link Percentaged} (weighted) instance of this IItemStack. The result of this method is equivalent to {@code percent(100)}.
      *
      * @return A {@link Percentaged} (weighted) instance of this IItemStack.
      */
@@ -752,9 +768,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the ItemDefinition for this IItemStack's item.
+     * Returns the {@link Item} for this IItemStack's item.
      *
-     * @return The ItemDefinition for this IItemStack's item.
+     * @return The {@link Item} for this IItemStack's item.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("definition")
@@ -781,18 +797,18 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     IItemStack asImmutable();
     
     /**
-     * Returns whether this IItemStack is immutable or not. Generally, the result of this method is equivalent to `!isMutable()`.
+     * Returns whether this IItemStack is immutable or not. The result of this method is equivalent to {@code !isMutable()}.
      *
-     * @return `true` if this IItemStack is immutable, `false` if not.
+     * @return {@code true} if this IItemStack is immutable, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isImmutable")
     boolean isImmutable();
     
     /**
-     * Returns whether this IItemStack is mutable or not. Generally, the result of this method is equivalent to `!isImmutable()`.
+     * Returns whether this IItemStack is mutable or not. The result of this method is equivalent to {@code !isImmutable()}.
      *
-     * @return `true` if this IItemStack is mutable, `false` if not.
+     * @return {@code true} if this IItemStack is mutable, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isMutable")
@@ -831,11 +847,13 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets {@link Enchantment}s on this IItemStack. For example, `<item:minecraft:diamond_sword>.setEnchantments({<enchantment:minecraft:sharpness>: 5, <enchantment:minecraft:looting>: 1})` will return a diamond sword with Sharpness V and Looting I.
+     * Sets {@link Enchantment}s on this IItemStack.
      *
      * @param enchantments The {@link Enchantment} to set on this IItemStack. Must be an enchantment => int map, where the map's value for an enchantment represents the enchantment level that should be set.
      *
      * @return This IItemStack if mutable, a new IItemStack with the enchantments added otherwise.
+     *
+     * @docParam enchantments {<enchantment:minecraft:sharpness>: 5, <enchantment:minecraft:looting>: 1}
      */
     @ZenCodeType.Method
     @ZenCodeType.Setter("enchantments")
@@ -845,9 +863,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the level of the given {@link Enchantment} on this IItemStack, or 0 if the enchantment if this IItemStack does not have the given enchantment.
+     * Returns the level of the given {@link Enchantment} on this IItemStack, or 0 if this IItemStack does not have the given enchantment.
      *
-     * @return The level of the given {@link Enchantment} on this IItemStack, or 0 if the enchantment if this IItemStack does not have the given enchantment.
+     * @return The level of the given {@link Enchantment} on this IItemStack, or 0 if this IItemStack does not have the given enchantment.
      */
     @ZenCodeType.Method
     default int getEnchantmentLevel(Enchantment enchantment) {
@@ -856,12 +874,15 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Enchants this IItemStack with the given {@link Enchantment}. For example, `<item:minecraft:diamond_sword>.withEnchantment(<enchantment:minecraft:sharpness>, 3)` will return a diamond sword with Sharpness III.
+     * Enchants this IItemStack with the given {@link Enchantment}.
      *
      * @param enchantment The {@link Enchantment} to add.
      * @param level       The level of the {@link Enchantment} to add.
      *
      * @return This IItemStack if mutable, a new IItemStack with the enchantment added otherwise.
+     *
+     * @docParam enchantment <enchantment:minecraft:sharpness>
+     * @docParam level 3
      */
     @ZenCodeType.Method
     default IItemStack withEnchantment(Enchantment enchantment, @ZenCodeType.OptionalInt(1) int level) {
