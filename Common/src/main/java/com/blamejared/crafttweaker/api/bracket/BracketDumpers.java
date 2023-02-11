@@ -26,11 +26,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * This class contains various helpers for getting dumps of the various bracket handlers.
+ *
+ * <p>The output is similar to what {@code /ct dump} does, except it doesn't write into a file and instead returns what would be the files' contents in a collection instead.</p>
+ */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.BracketDumpers")
 @Document("vanilla/api/BracketDumpers")
 public class BracketDumpers {
-    
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandAttribute} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("attribute")
     public static Collection<String> getAttributeDump() {
@@ -40,7 +47,10 @@ public class BracketDumpers {
                 .map(ExpandAttribute::getCommandString)
                 .collect(Collectors.toSet());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandBlock} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("block")
     public static Collection<String> getBlockDump() {
@@ -50,7 +60,10 @@ public class BracketDumpers {
                 .map(ExpandBlock::getCommandString)
                 .collect(Collectors.toSet());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandMaterial} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("material")
     public static Collection<String> getMaterialDump() {
@@ -60,7 +73,10 @@ public class BracketDumpers {
                 .map(ExpandMaterial::getCommandString)
                 .collect(Collectors.toSet());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandMobEffect} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("mobeffect")
     public static Collection<String> getEffectDump() {
@@ -70,7 +86,10 @@ public class BracketDumpers {
                 .map(ExpandMobEffect::getCommandString)
                 .collect(Collectors.toSet());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandEnchantment} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("enchantment")
     public static Collection<String> getEnchantmentDump() {
@@ -80,7 +99,10 @@ public class BracketDumpers {
                 .map(ExpandEnchantment::getCommandString)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandEntityType} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("entitytype")
     public static Collection<String> getEntityTypeDump() {
@@ -90,7 +112,10 @@ public class BracketDumpers {
                 .map(ExpandEntityType::getCommandString)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link com.blamejared.crafttweaker.api.item.IItemStack} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("item")
     public static Collection<String> getItemBracketDump() {
@@ -101,7 +126,10 @@ public class BracketDumpers {
                 .map(ItemStackUtil::getCommandString)
                 .collect(Collectors.toSet());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandPotion} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("potion")
     public static Collection<String> getPotionTypeDump() {
@@ -111,7 +139,10 @@ public class BracketDumpers {
                 .map(ExpandPotion::getCommandString)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandPotion} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("profession")
     public static Collection<String> getProfessionDump() {
@@ -121,7 +152,10 @@ public class BracketDumpers {
                 .map(ExpandVillagerProfession::getCommandString)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandDamageSource} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("damagesource")
     public static Collection<String> getDamageSourceDump() {
@@ -131,7 +165,10 @@ public class BracketDumpers {
                 .map("<damagesource:%s>"::formatted)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandCreativeModeTab} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("creativemodetab")
     public static Collection<String> getCreativeModeTabBracketDump() {
@@ -140,7 +177,10 @@ public class BracketDumpers {
                 .map(ExpandCreativeModeTab::getCommandString)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link ExpandSoundEvent} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("soundevent")
     public static Collection<String> getSoundEventDump() {
@@ -150,7 +190,10 @@ public class BracketDumpers {
                 .map(ExpandSoundEvent::getCommandString)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * @return A {@code Collection<string>}, with each string representing one {@link com.blamejared.crafttweaker.api.recipe.replacement.ITargetingStrategy} bracket handler in the game.
+     */
     @ZenCodeType.Method
     @BracketDumper("targetingstrategy")
     public static Collection<String> getTargetingStrategyDump() {

@@ -8,20 +8,19 @@ import net.minecraft.resources.ResourceLocation;
 import org.openzen.zencode.java.ZenCodeType;
 
 /**
- * Bracket handlers specifically for resource location as it is used in multiple loaders.
+ * This class contains helper specifically for {@link ResourceLocation}s. This is because they are used in multiple loader stages.
  */
 @ZenRegister(loaders = {CraftTweakerConstants.DEFAULT_LOADER_NAME, CraftTweakerConstants.TAGS_LOADER_NAME})
 @ZenCodeType.Name("crafttweaker.api.bracket.ResourceLocationBracketHandler")
 @Document("vanilla/api/ResourceLocationBracketHandler")
 public class ResourceLocationBracketHandler {
-    
+
     /**
-     * Creates a Resource location based on the tokens.
-     * Throws an error if the tokens are not a valid location.
+     * Creates a {@link ResourceLocation} from the given inputs. Throws an exception if the inputs are invalid.
      *
-     * @param tokens The resource location
+     * @param tokens The name to create the {@link ResourceLocation} from.
      *
-     * @return The location
+     * @return A {@link ResourceLocation} created from the given inputs.
      *
      * @docParam tokens "minecraft:dirt"
      */

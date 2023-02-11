@@ -33,15 +33,23 @@ import java.util.Locale;
 import java.util.Optional;
 
 /**
- * This class contains the "simple" Bracket handlers from CraftTweaker.
- * However, some Bracket handlers, like for recipeTypes, tags, tagManagers, won't be shown here as
- * they use a different internal structure.
+ * This class contains helpers for getting most bracket handlers.
+ *
+ * <p>Some bracket handlers, such as the ones for recipe types, tags and tag managers, are not shown here as they use a different internal structure.</p>
  */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.bracket.BracketHandlers")
 @Document("vanilla/api/BracketHandlers")
 public class BracketHandlers {
-    
+    /**
+     * Returns the {@link Attribute} bracket handler associated with the given name. Throws an exception if nothing is found.
+     *
+     * @param tokens The name to get the {@link Attribute} for.
+     *
+     * @return The {@link Attribute} bracket handler associated with the given name.
+     *
+     * @docParam tokens "minecraft:generic.max_health"
+     */
     @ZenCodeType.Method
     @BracketResolver("attribute")
     public static Attribute getAttribute(String tokens) {
@@ -59,13 +67,13 @@ public class BracketHandlers {
         return Registry.ATTRIBUTE.getOptional(key)
                 .orElseThrow(() -> new IllegalArgumentException("Could not get attribute with name: <attribute:" + tokens + ">! Attribute does not appear to exist!"));
     }
-    
+
     /**
-     * Gets the give {@link Block}. Throws an Exception if not found
+     * Returns the {@link Block} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens What you would write in the BEP call.
+     * @param tokens The name to get the {@link Block} for.
      *
-     * @return The found {@link Block}
+     * @return The {@link Block} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:dirt"
      */
@@ -85,13 +93,13 @@ public class BracketHandlers {
         return Registry.BLOCK.getOptional(key)
                 .orElseThrow(() -> new IllegalArgumentException("Could not get block with name: <block:" + tokens + ">! Block does not appear to exist!"));
     }
-    
+
     /**
-     * Gets the given {@link Material}. Throws an Exception if not found.
+     * Returns the {@link Material} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens What you would write in the BEP call.
+     * @param tokens The name to get the {@link Material} for.
      *
-     * @return The found {@link Material}
+     * @return The {@link Material} bracket handler associated with the given name.
      *
      * @docParam tokens "earth"
      */
@@ -104,14 +112,13 @@ public class BracketHandlers {
         return ExpandMaterial.getOptionalMaterial(tokens)
                 .orElseThrow(() -> new IllegalArgumentException("Could not find material <material:" + tokens + ">!"));
     }
-    
+
     /**
-     * Creates a Blockstate based on the given inputs.
-     * Returns `null` if it cannot find the block, ignored invalid variants
+     * Returns a {@link BlockState} bracket handler created from the given input. Returns {@code null} if no {@link BlockState} could be created.
      *
-     * @param tokens The block's resource location and variants
+     * @param tokens The input to create the {@link BlockState} from.
      *
-     * @return The found BlockState
+     * @return A {@link BlockState} bracket handler created from the given input.
      *
      * @docParam tokens "minecraft:acacia_planks"
      * @docParam tokens "minecraft:furnace:facing=north,lit=false"
@@ -139,12 +146,36 @@ public class BracketHandlers {
         CraftTweakerAPI.LOGGER.error("Error creating BlockState!", new IllegalArgumentException("Could not get BlockState from: <blockstate:" + tokens + ">!"));
         return null;
     }
-    
+
+    /**
+     * Returns a {@link BlockState} bracket handler created from the given inputs. Returns {@code null} if no {@link BlockState} could be created.
+     *
+     * @param name       The name of the {@link Block} to create the {@link BlockState} from.
+     * @param properties The block state properties to apply to the {@link BlockState}.
+     *
+     * @return A {@link BlockState} bracket handler created from the given inputs.
+     *
+     * @docParam name "minecraft:furnace"
+     * @docParam tokens "facing=north,lit=false"
+     */
     public static BlockState getBlockState(String name, String properties) {
         
         return getBlockState(Registry.BLOCK.get(new ResourceLocation(name)), name, properties);
     }
-    
+
+    /**
+     * Returns a {@link BlockState} bracket handler created from the given inputs. Returns {@code null} if no {@link BlockState} could be created.
+     *
+     * @param block      The {@link Block} to create the {@link BlockState} from.
+     * @param name       The name of the {@link Block} to create the {@link BlockState} from.
+     * @param properties The block state properties to apply to the {@link BlockState}.
+     *
+     * @return A {@link BlockState} bracket handler created from the given inputs.
+     *
+     * @docParam block <item:minecraft:furnace>
+     * @docParam name "minecraft:furnace"
+     * @docParam tokens "facing=north,lit=false"
+     */
     public static BlockState getBlockState(Block block, String name, String properties) {
         
         BlockState blockState = block.defaultBlockState();
@@ -161,13 +192,13 @@ public class BracketHandlers {
         
         return blockState;
     }
-    
+
     /**
-     * Gets the mobeffect based on registry name. Throws an error if it can't find the mobeffect.
+     * Returns the {@link MobEffect} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The mobeffect's resource location
+     * @param tokens The name to get the {@link MobEffect} for.
      *
-     * @return The found mobeffect
+     * @return The {@link MobEffect} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:haste"
      */
@@ -186,13 +217,13 @@ public class BracketHandlers {
         return Registry.MOB_EFFECT.getOptional(new ResourceLocation(split[0], split[1]))
                 .orElseThrow(() -> new IllegalArgumentException("Could not get effect with name: <mobeffect:" + tokens + ">! Effect does not appear to exist!"));
     }
-    
+
     /**
-     * Gets the enchantment based on registry name. Throws an error if it can't find the enchantment.
+     * Returns the {@link Enchantment} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The enchantment's registry name
+     * @param tokens The name to get the {@link Enchantment} for.
      *
-     * @return The found enchantment
+     * @return The {@link Enchantment} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:riptide"
      */
@@ -217,13 +248,13 @@ public class BracketHandlers {
         
         return found.get();
     }
-    
+
     /**
-     * Gets the entityType based on registry name. Throws an exception if it can't find the entityType.
+     * Returns the {@link EntityType} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The entityType's resource location
+     * @param tokens The name to get the {@link EntityType} for.
      *
-     * @return The found entityType
+     * @return The {@link EntityType} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:pig"
      */
@@ -240,14 +271,14 @@ public class BracketHandlers {
         return Registry.ENTITY_TYPE.getOptional(resourceLocation)
                 .orElseThrow(() -> new IllegalArgumentException("Could not get entitytype <entitytype:" + tokens + ">"));
     }
-    
-    
+
+
     /**
-     * Gets the item based on registry name. Throws an error if it can't find the item.
+     * Returns the {@link IItemStack} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The item's resource location
+     * @param tokens The name to get the {@link IItemStack} for.
      *
-     * @return The found item
+     * @return The {@link IItemStack} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:dirt"
      */
@@ -270,8 +301,17 @@ public class BracketHandlers {
                 .orElseThrow(() -> new IllegalArgumentException("Could not get item with name: <item:" + tokens + ">! Item does not appear to exist!"));
         return IItemStack.of(stack);
     }
-    
-    
+
+
+    /**
+     * Returns the {@link Potion} bracket handler associated with the given name. Throws an exception if nothing is found.
+     *
+     * @param tokens The name to get the {@link Potion} for.
+     *
+     * @return The {@link Potion} bracket handler associated with the given name.
+     *
+     * @docParam tokens "minecraft:long_night_vision"
+     */
     @BracketResolver("potion")
     @ZenCodeType.Method
     public static Potion getPotion(String tokens) {
@@ -288,19 +328,14 @@ public class BracketHandlers {
         return Registry.POTION.getOptional(key)
                 .orElseThrow(() -> new IllegalArgumentException("Could not get potion with name: <potion:" + tokens + ">! Potion does not appear to exist!"));
     }
-    
-    
+
+
     /**
-     * Gets the recipeManager based on registry name. Throws an error if it can't find the recipeManager.
-     * Throws an exception if the given recipeType is not found.
-     * <p>
-     * This will always return IRecipeManager.<br>
-     * There is also a BEP for that but that works differently so it can't be automatically added to the docs here.
-     * But the BEP looks the same as the other ones: `<recipetype:minecraft:crafting>`
+     * Returns the {@link IRecipeManager} bracket handler associated with the given name. Throws an exception if nothing is found. The bracket handler for {@code <recipetype:crafttweaker:scripts>} cannot be accessed this way.
      *
-     * @param tokens The recipeManager's resource location
+     * @param tokens The name to get the {@link IRecipeManager} for.
      *
-     * @return The found recipeManager
+     * @return The {@link IRecipeManager} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:crafting"
      */
@@ -324,14 +359,13 @@ public class BracketHandlers {
             throw new IllegalArgumentException("Could not get RecipeType with name: <recipetype:" + tokens + ">! RecipeType does not appear to exist!");
         }
     }
-    
+
     /**
-     * Creates a Resource location based on the tokens.
-     * Throws an error if the tokens are not a valid location.
+     * Creates a {@link ResourceLocation} from the given inputs. Throws an exception if the inputs are invalid.
      *
-     * @param tokens The resource location
+     * @param tokens The name to create the {@link ResourceLocation} from.
      *
-     * @return The location
+     * @return A {@link ResourceLocation} created from the given inputs.
      *
      * @docParam tokens "minecraft:dirt"
      * @deprecated Use {@link ResourceLocationBracketHandler#getResourceLocation(String)} instead.
@@ -342,13 +376,13 @@ public class BracketHandlers {
         
         return ResourceLocationBracketHandler.getResourceLocation(tokens);
     }
-    
+
     /**
-     * Gets the villager profession based on registry name. Throws an exception if it can't find the profession.
+     * Returns the {@link VillagerProfession} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The profession's resource location
+     * @param tokens The name to get the {@link VillagerProfession} for.
      *
-     * @return The found profession
+     * @return The {@link VillagerProfession} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:armorer"
      */
@@ -365,14 +399,13 @@ public class BracketHandlers {
         return Registry.VILLAGER_PROFESSION.getOptional(resourceLocation)
                 .orElseThrow(() -> new IllegalArgumentException("Could not get profession with name: <profession:" + tokens + ">! Profession does not appear to exist!"));
     }
-    
+
     /**
-     * Gets a damage source based on type.
-     * If the damage source is not pre-registered, it will create a new one with the given name
+     * Returns the {@link DamageSource} bracket handler associated with the given name. If no {@link DamageSource} with the given name is found, a new one will be created and returned.
      *
-     * @param tokens the damage sources' type
+     * @param tokens The name to get the {@link DamageSource} for.
      *
-     * @return The found pre-registered damage source or a new one
+     * @return The {@link DamageSource} bracket handler associated with the given name.
      *
      * @docParam tokens "magic"
      */
@@ -382,16 +415,15 @@ public class BracketHandlers {
         
         return ExpandDamageSource.PRE_REGISTERED_DAMAGE_SOURCES.getOrDefault(tokens, new DamageSource(tokens));
     }
-    
+
     /**
-     * Gets an CreativeModeTab by name.
-     * Will throw an error if the tab could not be found!
+     * Returns the {@link CreativeModeTab} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The CreativeModeTab's name.
+     * @param tokens The name to get the {@link CreativeModeTab} for.
      *
-     * @return The found ItemGroup
+     * @return The {@link CreativeModeTab} bracket handler associated with the given name.
      *
-     * @docParam tokens misc
+     * @docParam tokens "misc"
      */
     @ZenCodeType.Method
     @BracketResolver("creativemodetab")
@@ -402,13 +434,13 @@ public class BracketHandlers {
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Could not find creativemodetab for '<creativemodetab:" + tokens + ">'!"));
     }
-    
+
     /**
-     * Gets a sound event based on registry name. Throws an exception if it can't find the sound event.
+     * Returns the {@link SoundEvent} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * @param tokens The sound event's resource location
+     * @param tokens The name to get the {@link SoundEvent} for.
      *
-     * @return The found sound event
+     * @return The {@link SoundEvent} bracket handler associated with the given name.
      *
      * @docParam tokens "minecraft:ambient.cave"
      */
@@ -425,18 +457,15 @@ public class BracketHandlers {
         return Registry.SOUND_EVENT.getOptional(resourceLocation)
                 .orElseThrow(() -> new IllegalArgumentException("Could not get sound event with name: <soundevent:" + tokens + ">! Sound event does not appear to exist!"));
     }
-    
+
     /**
-     * Gets an {@link ITargetingStrategy} based on its name.
+     * Returns the {@link ITargetingStrategy} bracket handler associated with the given name. Throws an exception if nothing is found.
      *
-     * <p>Throws an exception if the strategy doesn't exist.</p>
+     * @param tokens The name to get the {@link ITargetingStrategy} for.
      *
-     * @param tokens The strategy's resource location
+     * @return The {@link ITargetingStrategy} bracket handler associated with the given name.
      *
-     * @return The found targeting strategy
-     *
-     * @docParam tokens "crafttweaker:default"
-     * @since 10.0.0
+     * @docParam tokens "earth"
      */
     @ZenCodeType.Method
     @BracketResolver("targetingstrategy")

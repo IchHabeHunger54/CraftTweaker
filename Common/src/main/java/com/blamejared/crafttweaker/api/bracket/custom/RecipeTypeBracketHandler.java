@@ -97,7 +97,16 @@ public class RecipeTypeBracketHandler implements BracketExpressionParser {
         
         return registeredTypes().computeIfAbsent(type, RecipeManagerWrapper::makeOrNull);
     }
-    
+
+    /**
+     * Returns the {@link IRecipeManager} bracket handler associated with the given name. Throws an exception if nothing is found.
+     *
+     * @param location The name to get the {@link IRecipeManager} for.
+     *
+     * @return The {@link IRecipeManager} bracket handler associated with the given name.
+     *
+     * @docParam tokens "minecraft:crafting"
+     */
     @ZenCodeType.Method
     public static <T extends IRecipeManager<?>> T getRecipeManager(String location) {
         

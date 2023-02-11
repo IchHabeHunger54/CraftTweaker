@@ -37,7 +37,14 @@ public final class RecipeComponentBracketHandler implements BracketExpressionPar
     private static final String BRACKET_METHOD_NAME = "bracket";
     
     public RecipeComponentBracketHandler() {}
-    
+
+    /**
+     * Returns the {@link IRecipeComponent} bracket handler associated with the given name. Throws an exception if nothing is found.
+     *
+     * @param name The name to get the {@link IRecipeComponent} for.
+     *
+     * @return The {@link IRecipeComponent} bracket handler associated with the given name.
+     */
     @ZenCodeType.Method(BRACKET_METHOD_NAME)
     public static <T> IRecipeComponent<T> bracket(final ResourceLocation name) {
         

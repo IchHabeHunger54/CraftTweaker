@@ -42,7 +42,12 @@ public abstract class CTBlockIngredient implements CommandStringDisplayable {
                                 Function<BlockState, T> blockStateMapper,
                                 BiFunction<TagKey<Block>, Integer, T> tagMapper,
                                 Function<Stream<T>, T> compoundMapper);
-    
+
+    /**
+     * Returns a {@link CTBlockIngredient} that matches both {@link CTBlockIngredient}s passed into the operation.
+     * @param other The {@link CTBlockIngredient} to combine this ingredient with.
+     * @return A {@link CTBlockIngredient} that matches both {@link CTBlockIngredient}s passed into the operation.
+     */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.OR)
     public CTBlockIngredient asCompound(CTBlockIngredient other) {
         

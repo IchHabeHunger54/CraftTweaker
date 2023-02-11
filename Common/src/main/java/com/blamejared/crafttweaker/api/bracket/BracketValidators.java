@@ -22,21 +22,42 @@ public class BracketValidators {
     private BracketValidators() {
     
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.level.block.Block} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.level.block.Block} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("block")
     public static boolean validateBlockBracket(String tokens) {
         
         return validateBracket("block", tokens, BracketHandlers::getBlock);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.level.material.Material} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.level.material.Material} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("material")
     public static boolean validateBlockMaterialBracket(String tokens) {
         
         return validateBracket("material", tokens, BracketHandlers::getMaterial);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.level.block.state.BlockState} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.level.block.state.BlockState} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("blockstate")
     public static boolean validateBlockStateMaterialBracket(String tokens) {
@@ -57,8 +78,15 @@ public class BracketValidators {
         final BlockState blockState = BracketHandlers.getBlockState(resourceLocation, properties);
         return blockState != null;
     }
-    
-    
+
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.effect.MobEffect} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.effect.MobEffect} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("mobeffect")
     public static boolean validateEffectBracket(String tokens) {
@@ -70,7 +98,14 @@ public class BracketValidators {
         
         return validateBracket("effect", tokens, BracketHandlers::getMobEffect);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.item.enchantment.Enchantment} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.item.enchantment.Enchantment} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("enchantment")
     public static boolean validateEnchantment(String tokens) {
@@ -93,7 +128,14 @@ public class BracketValidators {
         
         return true;
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.entity.EntityType} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.entity.EntityType} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("entitytype")
     public static boolean validateEntityType(String tokens) {
@@ -105,7 +147,14 @@ public class BracketValidators {
         
         return validateBracket("entitytype", tokens, BracketHandlers::getEntityType);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link com.blamejared.crafttweaker.api.item.IItemStack} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link com.blamejared.crafttweaker.api.item.IItemStack} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("item")
     public static boolean validateItemBracket(String tokens) {
@@ -128,7 +177,14 @@ public class BracketValidators {
         
         return true;
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.world.entity.npc.VillagerProfession} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.world.entity.npc.VillagerProfession} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("profession")
     public static boolean validateProfessionBracket(String tokens) {
@@ -140,21 +196,35 @@ public class BracketValidators {
         
         return validateBracket("profession", tokens, BracketHandlers::getProfession);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link ResourceLocation} or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link ResourceLocation}, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("resource")
     public static boolean validateResourceBracket(String tokens) {
         
         return ResourceLocation.tryParse(tokens) != null;
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link CreativeModeTab} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link CreativeModeTab} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("creativemodetab")
     public static boolean validateCreativeModeTabBracket(String tokens) {
         
         return Arrays.stream(CreativeModeTab.TABS).anyMatch(group -> group.getRecipeFolderName().equals(tokens));
     }
-    
+
     public static boolean validateBracket(String bracketName, String tokens, Function<String, ?> bracketMethod, boolean logError) {
         
         try {
@@ -171,7 +241,14 @@ public class BracketValidators {
         
         return validateBracket(bracketName, tokens, bracketMethod, true);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link net.minecraft.sounds.SoundEvent} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link net.minecraft.sounds.SoundEvent} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("soundevent")
     public static boolean validateSoundEvent(String tokens) {
@@ -183,7 +260,14 @@ public class BracketValidators {
         
         return validateBracket("soundevent", tokens, BracketHandlers::getSoundEvent);
     }
-    
+
+    /**
+     * Checks if the given tokens make a valid {@link com.blamejared.crafttweaker.api.recipe.replacement.ITargetingStrategy} bracket handler or not.
+     *
+     * @param tokens The tokens to check.
+     *
+     * @return {@code true} if the given tokens make a valid {@link com.blamejared.crafttweaker.api.recipe.replacement.ITargetingStrategy} bracket handler, {@code false} if not.
+     */
     @ZenCodeType.Method
     @BracketValidator("targetingstrategy")
     public static boolean validateTargetingStrategy(final String tokens) {
