@@ -34,21 +34,36 @@ public class Game {
     public static final Game INSTANCE = new Game();
     
     private Game() {}
-    
+
+    /**
+     * Returns a collection of all {@link MobEffect}s registered in the game.
+     *
+     * @return A collection of all {@link MobEffect}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("effects")
     public Collection<MobEffect> getMobEffects() {
         
         return Registry.MOB_EFFECT.stream().toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link Enchantment}s registered in the game.
+     *
+     * @return A collection of all {@link Enchantment}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("enchantments")
     public Collection<Enchantment> getEnchantments() {
         
         return Registry.ENCHANTMENT.stream().toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link EntityType}s registered in the game.
+     *
+     * @return A collection of all {@link EntityType}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("entityTypes")
     public Collection<EntityType> getEntityTypes() {
@@ -57,14 +72,24 @@ public class Game {
                 .stream()
                 .toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link Fluid}s registered in the game.
+     *
+     * @return A collection of all {@link Fluid}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("fluids")
     public Collection<Fluid> getFluids() {
         
         return Registry.FLUID.stream().toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link IItemStack}s registered in the game.
+     *
+     * @return A collection of all {@link IItemStack}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("items")
     public Collection<IItemStack> getItemStacks() {
@@ -75,14 +100,24 @@ public class Game {
                 .map(IItemStack::of)
                 .toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link Potion}s registered in the game.
+     *
+     * @return A collection of all {@link Potion}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("potions")
     public Collection<Potion> getPotions() {
         
         return Registry.POTION.stream().toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link IRecipeManager}s registered in the game.
+     *
+     * @return A collection of all {@link IRecipeManager}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("recipeTypes")
     public Collection<IRecipeManager> getRecipeTypes() {
@@ -93,14 +128,24 @@ public class Game {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * Returns a collection of all {@link Block}s registered in the game.
+     *
+     * @return A collection of all {@link Block}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("blocks")
     public Collection<Block> getBlocks() {
         
         return Registry.BLOCK.stream().toList();
     }
-    
+
+    /**
+     * Returns a collection of all {@link BlockState}s registered in the game.
+     *
+     * @return A collection of all {@link BlockState}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("blockStates")
     public Collection<BlockState> getBlockStates() {
@@ -110,7 +155,12 @@ public class Game {
                 .flatMap(block -> block.getStateDefinition().getPossibleStates().stream())
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * Returns a collection of all {@link VillagerProfession}s registered in the game.
+     *
+     * @return A collection of all {@link VillagerProfession}s registered in the game.
+     */
     @ZenCodeType.Method
     @ZenCodeType.Getter("villagerProfessions")
     public Collection<VillagerProfession> getVillagerProfessions() {
@@ -119,7 +169,11 @@ public class Game {
     }
     
     /**
-     * @return a localized String
+     * Returns the localized (translated) version of the given translation key.
+     *
+     * @param translationKey The translation key to localize.
+     *
+     * @return The localized version of the given translation key.
      *
      * @docParam translationKey "gui.up"
      */

@@ -10,7 +10,12 @@ import org.openzen.zencode.java.ZenCodeType;
 @Document("vanilla/api/entity/INameTagFunction")
 @ZenCodeType.Name("crafttweaker.api.entity.INameTagFunction")
 public interface INameTagFunction {
-    
+    /**
+     * Applies the function with the given parameters.
+     *
+     * @param entity The {@link Entity} to use.
+     * @param result The {@link NameTagResult} to use.
+     */
     @ZenCodeType.Method
     void apply(Entity entity, NameTagResult result);
     

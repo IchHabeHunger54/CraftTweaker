@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * EntityIngredient that facilitates accepting either a single, or multiple {@link EntityType}s, {@link KnownTag <EntityType>}s
- * or {@link Many< KnownTag <EntityType>>}s.
+ * Facilitates accepting single or multiple {@link EntityType}s, {@link KnownTag<EntityType>}s or {@link Many<KnownTag<EntityType>>}s.
  */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.entity.EntityIngredient")
@@ -41,7 +40,14 @@ public abstract class CTEntityIngredient implements CommandStringDisplayable {
     public abstract <T> T mapTo(Function<EntityType<?>, T> typeMapper,
                                 BiFunction<TagKey<EntityType<?>>, Integer, T> tagMapper,
                                 Function<Stream<T>, T> compoundMapper);
-    
+
+    /**
+     * Combines two {@code CTEntityIngredient}s into one.
+     *
+     * @param other The {@code CTEntityIngredient} to combine with.
+     *
+     * @return A new {@code CTEntityIngredient}, containing the combined value of this {@code CTEntityIngredient} and the other {@code CTEntityIngredient}.
+     */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.OR)
     public CTEntityIngredient asCompound(CTEntityIngredient other) {
         

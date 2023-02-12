@@ -25,8 +25,7 @@ public class NameTagResult {
     }
     
     /**
-     * Gets the current content of the name tag.
-     * This can be changed by mods.
+     * Returns the current content of the name tag. This can be changed by mods.
      *
      * @return The current name tag content.
      */
@@ -41,7 +40,7 @@ public class NameTagResult {
     /**
      * Sets the new content of the name tag.
      *
-     * @param content The new name tag contents.
+     * @param content The new name tag content.
      *
      * @docParam contents "Creator"
      */
@@ -53,8 +52,7 @@ public class NameTagResult {
     }
     
     /**
-     * Gets the original content of the name tag.
-     * This can not be changed by mods.
+     * Returns the original content of the name tag. This cannot be changed by mods.
      *
      * @return The original name tag content.
      */
