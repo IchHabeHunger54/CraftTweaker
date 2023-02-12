@@ -6,6 +6,9 @@ import com.blamejared.crafttweaker.api.ingredient.IIngredientWithAmount;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
 import org.openzen.zencode.java.ZenCodeType;
 
+/**
+ * Implementation of {@link IIngredientWithAmount}. Using this shouldn't be necessary unless you know what you are doing.
+ */
 @ZenRegister
 @Document("vanilla/api/ingredient/type/IngredientWithAmount")
 @ZenCodeType.Name("crafttweaker.api.ingredient.type.IngredientWithAmount")

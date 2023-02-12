@@ -7,6 +7,11 @@ import com.blamejared.crafttweaker_annotations.annotations.Document;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.openzen.zencode.java.ZenCodeType;
 
+/**
+ * An {@link IIngredient} that matches no items.
+ *
+ * @docParam this IIngredientEmpty.getInstance()
+ */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.ingredient.type.IIngredientEmpty")
 @Document("vanilla/api/ingredient/type/IIngredientEmpty")

@@ -50,7 +50,9 @@ import java.util.regex.Pattern;
 
 
 /**
- * The CraftTweaker Ingredient class which is used to power our recipes and ItemStack matching.
+ * The CraftTweaker ingredient class, which is used to power recipes and item stack matching.
+ *
+ * <p>The main difference to {@link IItemStack} is that this class also includes item tags. Typically, a recipe will have {@code IIngredient} inputs (as any valid item can be used) and {@link IItemStack} outputs (as recipes can only have one defined output, not a range of outputs to choose from).</p>
  *
  * @docParam this <tag:items:minecraft:wool>
  */
@@ -60,9 +62,11 @@ import java.util.regex.Pattern;
 public interface IIngredient extends CommandStringDisplayable {
     
     /**
-     * Does the given stack match the ingredient?
+     * Checks if this {@code IIngredient} matches the given {@link IItemStack}. This version is damage-sensitive, use {@link IIngredient#matches(IItemStack, boolean)} to disable damage sensitivity.
      *
-     * @param stack The stack to check
+     * @param stack The {@link IItemStack} to check.
+     *
+     * @return {@code true} if this {@code IIngredient} matches the given {@link IItemStack}, {@code false} if not.
      *
      * @docParam stack <item:minecraft:iron_ingot>
      */
@@ -73,20 +77,23 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Does the given stack match the ingredient?
+     * Checks if this {@code IIngredient} matches the given {@link IItemStack}.
      *
-     * @param stack        The stack to check
-     * @param ignoreDamage Should damage be checked?
+     * @param stack        The {@link IItemStack} to check.
+     * @param ignoreDamage Whether damage should be checked or not.
+     *
+     * @return {@code true} if this {@code IIngredient} matches the given {@link IItemStack}, {@code false} if not.
      *
      * @docParam stack <item:minecraft:iron_ingot>
+     * @docParam ignoreDamage true
      */
     @ZenCodeType.Method
     boolean matches(IItemStack stack, boolean ignoreDamage);
     
     /**
-     * Checks if this ingredient is empty.
+     * Checks if this {@code IIngredient} is empty.
      *
-     * @return true if empty, false otherwise
+     * @return {@code true} if this {@code IIngredient} is empty, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("empty")
@@ -96,9 +103,11 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Does the ingredient contain the given ingredient?
+     * Checks if this {@code IIngredient} contains the given {@code IIngredient}.
      *
-     * @param ingredient The ingredient to check
+     * @param ingredient The {@code IIngredient} to check.
+     *
+     * @return {@code true} if this {@code IIngredient} contains the given {@code IIngredient}, {@code false} if not.
      *
      * @docParam ingredient (<item:minecraft:iron_ingot> | <item:minecraft:gold_ingot>)
      */
@@ -110,18 +119,20 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Create a Vanilla ingredient matching this one.
+     * Creates a vanilla {@link Ingredient} matching this one.
+     *
+     * @return A new vanilla {@link Ingredient} matching this one.
      */
     @ZenCodeType.Method
     @ZenCodeType.Caster(implicit = true)
     Ingredient asVanillaIngredient();
     
     /**
-     * When this ingredient stack is crafted, what will remain in the grid?
-     * Does not check if the stack matches though!
-     * Used e.g. in Crafting Table recipes.
+     * Returns the crafting remainder item of this {@code IIngredient}. Relevant e.g. for various bucket- or bowl-based items.
      *
-     * @param stack The stack to provide for this ingredient.
+     * @param stack The {@link IItemStack} to get the crafting remainder for.
+     *
+     * @return The crafting remainder item of this {@code IIngredient}.
      *
      * @docParam stack <item:minecraft:iron_ingot>
      */
@@ -138,20 +149,21 @@ public interface IIngredient extends CommandStringDisplayable {
         return IItemStack.empty();
     }
     
-    /**
-     * Returns the BEP to get this stack
-     */
     @ZenCodeType.Getter("commandString")
     String getCommandString();
-    
-    
+
+    /**
+     * Returns a list of valid {@link IItemStack}s for this {@code IIngredient}.
+     *
+     * @return A list of valid {@link IItemStack}s for this {@code IIngredient}.
+     */
     @ZenCodeType.Getter("items")
     IItemStack[] getItems();
     
     /**
-     * Sets the burn time of this ingredient, for use in the furnace and other machines
+     * Sets the burn time of this {@code IIngredient}, for use in furnaces and other machines.
      *
-     * @param time the new burn time
+     * @param time The burn time to set.
      *
      * @docParam time 500
      */
@@ -161,37 +173,76 @@ public interface IIngredient extends CommandStringDisplayable {
         
         CraftTweakerAPI.apply(new ActionSetBurnTime(this, time));
     }
-    
+
+    /**
+     * Clears any and all tooltips this {@code IIngredient} has. This includes shift-only tooltips, advanced-only tooltips, NBT-dependant tooltips, etc.
+     *
+     * @param leaveName By default, this method will also clear the item name itself. Set this to {@code true} to leave the name.
+     */
     @ZenCodeType.Method
     default void clearTooltip(@ZenCodeType.OptionalBoolean() boolean leaveName) {
         
         CraftTweakerAPI.apply(new ActionClearTooltip(this, leaveName));
     }
-    
+
+    /**
+     * Adds a new tooltip line to this {@code IIngredient}.
+     *
+     * @param content The contents of the new line.
+     *
+     * @docParam content Component.literal("I am a tooltip. I give tips on tools.");
+     */
     @ZenCodeType.Method
     default void addTooltip(Component content) {
         
         CraftTweakerAPI.apply(new ActionAddTooltip(this, content));
     }
-    
+
+    /**
+     * Adds a new tooltip line to this {@code IIngredient} that only shows when Shift is held down.
+     *
+     * @param content     The contents of the new line.
+     * @param showMessage The message that will be shown when Shift is not held down, and will be hidden when Shift is held down. This is useful for messages like "Hold Shift for more information".
+     *
+     * @docParam content Component.literal("I am a hidden tooltip. I give hidden tips on tools.");
+     * @docParam showMessage Component.literal("Hold Shift for more information");
+     */
     @ZenCodeType.Method
     default void addShiftTooltip(Component content, @ZenCodeType.Optional Component showMessage) {
         
         CraftTweakerAPI.apply(new ActionAddShiftedTooltip(this, content, showMessage));
     }
-    
+
+    /**
+     * Applies the given {@link ITooltipFunction} to this {@code IIngredient}'s tooltip. See the documentation on {@link ITooltipFunction} for details on how to use this.
+     *
+     * @param function The {@link ITooltipFunction} to apply.
+     */
     @ZenCodeType.Method
     default void modifyTooltip(ITooltipFunction function) {
         
         CraftTweakerAPI.apply(new ActionModifyTooltip(this, function));
     }
-    
+
+    /**
+     * Applies the given {@link ITooltipFunction} to this {@code IIngredient}'s tooltip. The function will only apply when Shift is held down. See the documentation on {@link ITooltipFunction} for details on how to use this.
+     *
+     * @param shiftedFunction   The {@link ITooltipFunction} to apply.
+     * @param unshiftedFunction The {@link ITooltipFunction} to apply when Shift is not held down. This will be hidden when Shift is held down. This is useful for messages like "Hold Shift for more information".
+     */
     @ZenCodeType.Method
     default void modifyShiftTooltip(ITooltipFunction shiftedFunction, @ZenCodeType.Optional ITooltipFunction unshiftedFunction) {
         
         CraftTweakerAPI.apply(new ActionModifyShiftedTooltip(this, shiftedFunction, unshiftedFunction));
     }
-    
+
+    /**
+     * Removes all tooltip lines that match the given regular expression (regex) from this {@code IIngredient}.
+     *
+     * @param regex The regular expression to match against. If you don't know what a regular expression is, please consult Google.
+     *
+     * @docParam regex ".* Attack Damage"
+     */
     @ZenCodeType.Method
     default void removeTooltip(String regex) {
         
@@ -199,14 +250,11 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Adds an AttributeModifier to this IIngredient.
+     * Adds an {@link AttributeModifier} to this {@code IIngredient}. Unlike other overloads, which take a separate UUID parameter, this one creates a random UUID based on the given {@code name}.
      *
-     * Attributes added with this method appear on all ItemStacks that match this IIngredient,
-     * regardless of how or when the ItemStack was made, if you want to have the attribute on a
-     * single specific ItemStack (such as a specific Diamond Sword made in a recipe), then you should use
-     * IItemStack#withAttributeModifier
+     * <p>Note: This method will add the modifier to all {@link IItemStack}s that match this {@code IIngredient}. If you want to apply a modifier to a specific stack only, you should use {@link IItemStack#withAttributeModifier(Attribute, String, double, AttributeModifier.Operation, EquipmentSlot[], boolean)} instead.</p>
      *
-     * @param attribute The Attribute of the modifier.
+     * @param attribute The {@link Attribute} of the modifier.
      * @param name      The name of the modifier.
      * @param value     The value of the modifier.
      * @param operation The operation of the modifier.
@@ -216,7 +264,7 @@ public interface IIngredient extends CommandStringDisplayable {
      * @docParam name "Extra Power"
      * @docParam value 10
      * @docParam operation AttributeOperation.ADDITION
-     * @docParam slotTypes [<constant:minecraft:equipmentslot:chest>]
+     * @docParam slotTypes [<constant:minecraft:equipmentslot:mainhand>]
      */
     @ZenCodeType.Method
     default void addGlobalAttributeModifier(Attribute attribute, String name, double value, AttributeModifier.Operation operation, EquipmentSlot[] slotTypes) {
@@ -226,18 +274,14 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Adds an AttributeModifier to this IIngredient using a specific UUID.
+     * Adds an {@link AttributeModifier} to this {@code IIngredient}, using a specific UUID.
      *
-     * The UUID can be used to override an existing attribute on an ItemStack with this new modifier.
-     * You can use `/ct hand attributes` to get the UUID of the attributes on an ItemStack.
+     * <p>The UUID can be used to override existing attributes of an {@code IIngredient} with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
      *
-     * Attributes added with this method appear on all ItemStacks that match this IIngredient,
-     * regardless of how or when the ItemStack was made, if you want to have the attribute on a
-     * single specific ItemStack (such as a specific Diamond Sword made in a recipe), then you should use
-     * IItemStack#withAttributeModifier
+     * <p>Note: This method will add the modifier to all {@link IItemStack}s that match this {@code IIngredient}. If you want to apply a modifier to a specific stack only, you should use {@link IItemStack#withAttributeModifier(Attribute, String, double, AttributeModifier.Operation, EquipmentSlot[], boolean)} instead.</p>
      *
-     * @param uuid      The unique identifier of the modifier to replace.
-     * @param attribute The Attribute of the modifier.
+     * @param attribute The {@link Attribute} of the modifier.
+     * @param uuid      The UUID of the modifier.
      * @param name      The name of the modifier.
      * @param value     The value of the modifier.
      * @param operation The operation of the modifier.
@@ -248,7 +292,7 @@ public interface IIngredient extends CommandStringDisplayable {
      * @docParam name "Extra Power"
      * @docParam value 10
      * @docParam operation AttributeOperation.ADDITION
-     * @docParam slotTypes [<constant:minecraft:equipmentslot:chest>]
+     * @docParam slotTypes [<constant:minecraft:equipmentslot:mainhand>]
      */
     @ZenCodeType.Method
     default void addGlobalAttributeModifier(Attribute attribute, String uuid, String name, double value, AttributeModifier.Operation operation, EquipmentSlot[] slotTypes) {
@@ -257,29 +301,25 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Adds an AttributeModifier to this IIngredient using a specific UUID.
+     * Adds an {@link AttributeModifier} to this {@code IIngredient}, using a specific UUID.
      *
-     * The UUID can be used to override an existing attribute on an ItemStack with this new modifier.
-     * You can use `/ct hand attributes` to get the UUID of the attributes on an ItemStack.
+     * <p>The UUID can be used to override existing attributes of an {@code IIngredient} with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
      *
-     * Attributes added with this method appear on all ItemStacks that match this IIngredient,
-     * regardless of how or when the ItemStack was made, if you want to have the attribute on a
-     * single specific ItemStack (such as a specific Diamond Sword made in a recipe), then you should use
-     * IItemStack#withAttributeModifier
+     * <p>Note: This method will add the modifier to all {@link IItemStack}s that match this {@code IIngredient}. If you want to apply a modifier to a specific stack only, you should use {@link IItemStack#withAttributeModifier(Attribute, String, double, AttributeModifier.Operation, EquipmentSlot[], boolean)} instead.</p>
      *
-     * @param uuid      The unique identifier of the modifier to replace.
-     * @param attribute The Attribute of the modifier.
+     * @param attribute The {@link Attribute} of the modifier.
+     * @param uuid      The UUID of the modifier.
      * @param name      The name of the modifier.
      * @param value     The value of the modifier.
      * @param operation The operation of the modifier.
      * @param slotTypes What slots the modifier is valid for.
      *
      * @docParam attribute <attribute:minecraft:generic.attack_damage>
-     * @docParam uuid IItemStack.BASE_ATTACK_DAMAGE_UUID
+     * @docParam uuid "8c1b5535-9f79-448b-87ae-52d81480aaa3"
      * @docParam name "Extra Power"
      * @docParam value 10
      * @docParam operation AttributeOperation.ADDITION
-     * @docParam slotTypes [<constant:minecraft:equipmentslot:chest>]
+     * @docParam slotTypes [<constant:minecraft:equipmentslot:mainhand>]
      */
     @ZenCodeType.Method
     default void addGlobalAttributeModifier(Attribute attribute, UUID uuid, String name, double value, AttributeModifier.Operation operation, EquipmentSlot[] slotTypes) {
@@ -302,18 +342,12 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Removes all AttributeModifiers that use the given Attribute from this IIngredient.
+     * Removes all {@link AttributeModifier}s that use the given {@link Attribute} from this {@code IIngredient}. This method can only remove default {@link Attribute}s, custom {@link Attribute}s may still be added by other means.
      *
-     * Attributes removed with this method are removed from ItemStacks that match this IIngredient,
-     * regardless of how or when the ItemStack was made, if you want to remove the attribute on a
-     * single specific ItemStack (such as a specific Diamond Sword made in a recipe), then you should use
-     * IItemStack#withoutAttribute.
+     * <p>Note: This method will remove the modifier from all {@link IItemStack}s that match this {@code IIngredient}. If you want to remove a modifier from a specific stack only, you should use {@link IItemStack#withoutAttributeModifier(Attribute, EquipmentSlot[])} instead.</p>//TODO doc
      *
-     * This method can only remove default Attributes from an ItemStack, it is still possible that
-     * an ItemStack can override it.
-     *
-     * @param attribute The attribute to remove.
-     * @param slotTypes The slot types to remove it from.
+     * @param attribute The {@link Attribute} to remove.
+     * @param slotTypes The {@link EquipmentSlot}s to remove the {@link AttributeModifier}s from.
      *
      * @docParam attribute <attribute:minecraft:generic.attack_damage>
      * @docParam slotTypes [<constant:minecraft:equipmentslot:chest>]
@@ -331,10 +365,12 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Removes all AttributeModifiers who's ID is the same as the given uuid from this IIngredient.
+     * Removes all {@link AttributeModifier}s that use the given UUID from this {@code IIngredient}. Unlike the other overload, this method can also remove non-default {@link Attribute}s.
      *
-     * @param uuid      The unique id of the AttributeModifier to remove.
-     * @param slotTypes The slot types to remove it from.
+     * <p>Note: This method will remove the modifier from all {@link IItemStack}s that match this {@code IIngredient}. If you want to remove a modifier from a specific stack only, you should use {@link IItemStack#withoutAttributeModifier(Attribute, EquipmentSlot[])} instead.</p>//TODO doc
+     *
+     * @param uuid      The UUID to remove.
+     * @param slotTypes The {@link EquipmentSlot}s to remove the {@link AttributeModifier}s from.
      *
      * @docParam uuid "8c1b5535-9f79-448b-87ae-52d81480aaa3"
      * @docParam slotTypes [<constant:minecraft:equipmentslot:chest>]
@@ -346,10 +382,12 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Removes all AttributeModifiers who's ID is the same as the given uuid from this IIngredient.
+     * Removes all {@link AttributeModifier}s that use the given UUID from this {@code IIngredient}. Unlike the other overload, this method can also remove non-default {@link Attribute}s.
      *
-     * @param uuid      The unique id of the AttributeModifier to remove.
-     * @param slotTypes The slot types to remove it from.
+     * <p>Note: This method will remove the modifier from all {@link IItemStack}s that match this {@code IIngredient}. If you want to remove a modifier from a specific stack only, you should use {@link IItemStack#withoutAttributeModifier(Attribute, EquipmentSlot[])} instead.</p>//TODO doc
+     *
+     * @param uuid      The UUID to remove.
+     * @param slotTypes The {@link EquipmentSlot}s to remove the {@link AttributeModifier}s from.
      *
      * @docParam uuid IItemStack.BASE_ATTACK_DAMAGE_UUID
      * @docParam slotTypes [<constant:minecraft:equipmentslot:chest>]
@@ -368,25 +406,49 @@ public interface IIngredient extends CommandStringDisplayable {
             }
         }));
     }
-    
+
+    /**
+     * Converts a vanilla {@link Ingredient} to a CraftTweaker {@code IIngredient}.
+     *
+     * @param ingredient The {@link Ingredient} to convert.
+     *
+     * @return A new {@code IIngredient}, created from the given vanilla {@link Ingredient}.
+     */
     static IIngredient fromIngredient(Ingredient ingredient) {
         
         return IngredientConverter.fromIngredient(ingredient);
     }
-    
+
+    /**
+     * Returns the {@link MapData} representation of this {@code IIngredient}, or an empty {@link MapData} if no representation could be created.
+     *
+     * @return A potentially empty {@link MapData} representation of this {@code IIngredient}.
+     */
     @ZenCodeType.Caster(implicit = true)
     default MapData asMapData() {
         
         final IData data = this.asIData();
         return data instanceof MapData ? ((MapData) data) : new MapData();
     }
-    
+
+    /**
+     * Returns the {@link IData} representation of this {@code IIngredient}.
+     *
+     * @return The {@link IData} representation of this {@code IIngredient}.
+     */
     @ZenCodeType.Caster(implicit = true)
     default IData asIData() {
         
         return JSONConverter.convert(this.asVanillaIngredient().toJson());
     }
-    
+
+    /**
+     * Creates a new {@link IIngredientList} that contains this {@code IIngredient} and the given {@code IIngredient}. The resulting {@link IIngredientList} can then be used to allow both {@code IIngredients} to be accepted in a recipe.
+     *
+     * @param other The other {@code IIngredient} to use.
+     *
+     * @return An {@link IIngredientList} that contains this {@code IIngredient} and the given {@code IIngredient}.
+     */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.OR)
     default IIngredientList or(IIngredient other) {
         
@@ -394,7 +456,11 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Use this in contexts where machines accept more than one item to state that fact.
+     * Sets an amount on this {@code IIngredient}. This is mainly used in modded machines that allow multiple inputs (all vanilla recipes ignore input counts).
+     *
+     * @param amount The amount to set.
+     *
+     * @return An {@link IIngredientWithAmount}, representing this {@code IIngredient} with the given amount.
      */
     @ZenCodeType.Method
     @ZenCodeType.Operator(ZenCodeType.OperatorType.MUL)
@@ -404,7 +470,9 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Used implicitly when a machine can accept more than one item but you only provide one.
+     * Casts this {@code IIngredient} to an {@link IIngredientWithAmount}. This is synonymous to calling {@link IIngredient#mul(int)} with a parameter value of 1. Used implicitly when providing regular {@code IIngredient}s to modded machines that allow multiple inputs.
+     *
+     * @return An {@link IIngredientWithAmount}, representing this {@code IIngredient} with an amount of 1.
      */
     @ZenCodeType.Method
     @ZenCodeType.Caster(implicit = true)
@@ -417,24 +485,51 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     // <editor-fold desc="Transformers">
+    /**
+     * Adds a replacement transformer to this {@code IIngredient}. Upon crafting, the {@code IIngredient} will not be used, instead, it will be replaced by the given {@link IItemStack}.
+     *
+     * @param replaceWith The {@link IItemStack} to replace this {@code IIngredient} with.
+     *
+     * @return This {@code IIngredient}, with the transformer information applied.
+     */
     @ZenCodeType.Method
     default IIngredientTransformed<IIngredient> transformReplace(IItemStack replaceWith) {
         
         return new IIngredientTransformed<>(this, new TransformReplace<>(replaceWith));
     }
-    
+
+    /**
+     * Adds a damage transformer to this {@code IIngredient}. Upon crafting, the {@code IIngredient} will not be used, instead, it will be damaged by the given amount.
+     *
+     * @param amount The amount to damage the {@code IIngredient} by.
+     *
+     * @return This {@code IIngredient}, with the transformer information applied.
+     */
     @ZenCodeType.Method
     default IIngredientTransformed<IIngredient> transformDamage(@ZenCodeType.OptionalInt(1) int amount) {
         
         return new IIngredientTransformed<>(this, new TransformDamage<>(amount));
     }
-    
+
+    /**
+     * Adds a custom transformer to this {@code IIngredient}. Upon crafting, the {@code IIngredient} will not be used, instead, the given function will be applied.
+     *
+     * @param uid      A string identification. This allows for safely adding multiple custom transformers to this {@code IIngredient}.
+     * @param function The function to apply.
+     *
+     * @return This {@code IIngredient}, with the transformer information applied.
+     */
     @ZenCodeType.Method
     default IIngredientTransformed<IIngredient> transformCustom(String uid, @ZenCodeType.Optional Function<IItemStack, IItemStack> function) {
         
         return new IIngredientTransformed<>(this, new TransformCustom<>(uid, function));
     }
-    
+
+    /**
+     * Adds a reusing transformer to this {@code IIngredient}. Upon crafting, the {@code IIngredient} will not be used, instead, it will remain untouched.
+     *
+     * @return This {@code IIngredient}, with the transformer information applied.
+     */
     @ZenCodeType.Method
     default IIngredientTransformed<IIngredient> reuse() {
         
@@ -442,7 +537,9 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Use this if you already have the transformer from another ingredient
+     * Applies an already existing transformer (e.g. from another {@code IIngredient}) to this {@code IIngredient}.
+     *
+     * @return This {@code IIngredient}, with the transformer information applied.
      */
     @ZenCodeType.Method
     default IIngredientTransformed<IIngredient> transform(IIngredientTransformer<IIngredient> transformer) {
@@ -453,30 +550,58 @@ public interface IIngredient extends CommandStringDisplayable {
     // </editor-fold>
     
     // <editor-fold desc="conditions">
+    /**
+     * Adds a damage condition to this {@code IIngredient}. The resulting {@code IIngredient} now requires the input to be damaged in order to be valid.
+     *
+     * @return This {@code IIngredient}, with the damage condition applied.
+     */
     @ZenCodeType.Method
     default IIngredientConditioned<IIngredient> onlyDamaged() {
         
         return new IIngredientConditioned<>(this, new ConditionDamaged<>());
     }
-    
+
+    /**
+     * Adds a damage condition to this {@code IIngredient}. The resulting {@code IIngredient} now requires the input to have at least the given durability damage in order to be valid.
+     *
+     * @return This {@code IIngredient}, with the damage condition applied.
+     */
     @ZenCodeType.Method
     default IIngredientConditioned<IIngredient> onlyDamagedAtLeast(int minDamage) {
         
         return new IIngredientConditioned<>(this, new ConditionDamagedAtLeast<>(minDamage));
     }
-    
+
+    /**
+     * Adds a damage condition to this {@code IIngredient}. The resulting {@code IIngredient} now requires the input to have at most the given durability damage in order to be valid.
+     *
+     * @return This {@code IIngredient}, with the damage condition applied.
+     */
     @ZenCodeType.Method
     default IIngredientConditioned<IIngredient> onlyDamagedAtMost(int maxDamage) {
         
         return new IIngredientConditioned<>(this, new ConditionDamagedAtMost<>(maxDamage));
     }
-    
+
+    /**
+     * Adds a damage condition to this {@code IIngredient}. The resulting {@code IIngredient} now accepts any amount of durability damage, including no damage at all.
+     *
+     * @return This {@code IIngredient}, with the damage condition applied.
+     */
     @ZenCodeType.Method
     default IIngredientConditioned<IIngredient> anyDamage() {
         
         return new IIngredientConditioned<>(this, new ConditionAnyDamage<>());
     }
-    
+
+    /**
+     * Adds a custom condition to this {@code IIngredient}. The resulting {@code IIngredient} now requires potential inputs to pass the given function in order to be valid.
+     *
+     * @param uid      A string identification. This allows for safely adding multiple custom conditions to this {@code IIngredient}.
+     * @param function The predicate to check.
+     *
+     * @return This {@code IIngredient}, with the custom condition applied.
+     */
     @ZenCodeType.Method
     default IIngredientConditioned<IIngredient> onlyIf(String uid, @ZenCodeType.Optional Predicate<IItemStack> function) {
         
@@ -484,7 +609,9 @@ public interface IIngredient extends CommandStringDisplayable {
     }
     
     /**
-     * Use this if you already have the condition from another ingredient
+     * Applies an already existing condition (e.g. from another {@code IIngredient}) to this {@code IIngredient}.
+     *
+     * @return This {@code IIngredient}, with the condition applied.
      */
     @ZenCodeType.Method
     default IIngredientConditioned<IIngredient> only(IIngredientCondition<IIngredient> condition) {

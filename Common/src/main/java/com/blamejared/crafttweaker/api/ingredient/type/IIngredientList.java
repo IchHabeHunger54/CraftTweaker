@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A list of {@link IIngredient}s. If a given {@link IItemStack} matches at least one of the ingredients in this {@code IIngredientList}, it matches the whole list.
+ */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.ingredient.type.IIngredientList")
 @Document("vanilla/api/ingredient/type/IIngredientList")

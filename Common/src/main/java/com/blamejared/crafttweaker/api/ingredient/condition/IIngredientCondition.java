@@ -14,10 +14,19 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("crafttweaker.api.ingredient.condition.IIngredientCondition")
 @Document("vanilla/api/ingredient/condition/IIngredientCondition")
 public interface IIngredientCondition<T extends IIngredient> {
-    
+    /**
+     * Checks if the given {@link IItemStack} matches this {@link IIngredient}.
+     *
+     * @param stack The {@link IItemStack} to check.
+     *
+     * @return {@code true} if the given {@link IItemStack} matches this {@link IIngredient}, {@code false} otherwise.
+     */
     @ZenCodeType.Method
     boolean matches(IItemStack stack);
-    
+
+    /**
+     * Returns the string equivalent of this ingredient condition.
+     */
     @ZenCodeType.Method
     String getCommandString(T ingredient);
     

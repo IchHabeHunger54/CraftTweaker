@@ -11,6 +11,13 @@ import com.blamejared.crafttweaker_annotations.annotations.Document;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.openzen.zencode.java.ZenCodeType;
 
+/**
+ * An {@link IIngredient} with a transformation applied.
+ *
+ * <p>If multiple transformations are applied, these are placed in layers of base ingredients. This means that e.g. for two transformations, this ingredient's {@link IIngredientTransformed#base} is another {@link IIngredientTransformed}, whose base is a normal {@link IIngredient}.</p>
+ *
+ * @param <T> The {@link IIngredient} class, or a subclass thereof, of which {@link IIngredientTransformed#base} is an instance.
+ */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.ingredient.type.IIngredientTransformed")
 @Document("vanilla/api/ingredient/type/IIngredientTransformed")

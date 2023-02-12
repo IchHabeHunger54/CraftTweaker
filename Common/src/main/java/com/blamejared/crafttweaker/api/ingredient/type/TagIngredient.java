@@ -14,6 +14,11 @@ import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.Arrays;
 
+/**
+ * An {@link IIngredient} that is backed by an item tag. All items in the tag are valid, similar to a {@link IIngredientList}.
+ *
+ * <p>{@code TagIngredient}s can be obtained through a tag bracket handler, for example {@code <tag:items:minecraft:wool>} or {@code <tag:items:forge:gems/diamond>}.</p>
+ */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.ingredient.type.TagIngredient")
 @Document("vanilla/api/ingredient/type/TagIngredient")

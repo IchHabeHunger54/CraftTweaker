@@ -43,11 +43,11 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * Represents an in-game item stack. This is what you want 99% of the time when dealing with recipes.
+ * Represents an in-game item stack. This is what you want most of the time when dealing with recipes.
  *
- * <p>IItemStacks can be obtained through bracket handlers prefixed with {@code item}. For example, {@code <item:minecraft:diamond>} represents an item stack containing one diamond.</p>
+ * <p>{@code IItemStack}s can be obtained through bracket handlers prefixed with {@code item}. For example, {@code <item:minecraft:diamond>} represents an item stack containing one diamond.</p>
  *
- * <p>Note that some methods, such as {@code setMaxStackSize()}, will affect the item of this IItemStack (and thus work for all stacks), while others, such as {@code addAttributeModifier()}, actually work only for that particular stack. Make sure to read the descriptions carefully!</p>
+ * <p>Note that some methods, such as {@code setMaxStackSize()}, will affect the item of this {@code IItemStack} (and thus work for all stacks), while others, such as {@link IItemStack#addGlobalAttributeModifier(Attribute, String, double, AttributeModifier.Operation, EquipmentSlot[])}, only work for that particular stack. Make sure to read the descriptions carefully!</p>
  */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.item.IItemStack")
@@ -84,15 +84,15 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Creates a copy of this IItemStack.
+     * Creates a copy of this {@code IItemStack}.
      */
     @ZenCodeType.Method
     IItemStack copy();
     
     /**
-     * Returns the registry name for this IItemStack's item. This is the item's id that shows up when advanced tooltips (F3+H) are enabled.
+     * Returns the registry name for this {@code IItemStack}'s item. This is the item's id that shows up when advanced tooltips (F3+H) are enabled.
      *
-     * @return The registry name of this IItemStack's item.
+     * @return The registry name of this {@code IItemStack}'s item.
      */
     @ZenCodeType.Getter("registryName")
     default ResourceLocation getRegistryName() {
@@ -101,9 +101,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the owning mod (a.k.a. mod id) for this IItemStack's item.
+     * Returns the owning mod (a.k.a. mod id) for this {@code IItemStack}'s item.
      *
-     * @return The owning mod of this IItemStack's item.
+     * @return The owning mod of this {@code IItemStack}'s item.
      */
     @ZenCodeType.Getter("owner")
     default String getOwner() {
@@ -112,9 +112,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is empty or not. Empty IItemStacks have the item {@code "minecraft:air"}.
+     * Returns whether this {@code IItemStack} is empty or not. Empty {@code IItemStack}s have the item {@code "minecraft:air"}.
      *
-     * @return {@code true} if this IItemStack is empty, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is empty, {@code false} if not.
      */
     @Override
     default boolean isEmpty() {
@@ -123,9 +123,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the max stack size of this IItemStack's item.
+     * Returns the max stack size of this {@code IItemStack}'s item.
      *
-     * @return The max stack size of this IItemStack's item.
+     * @return The max stack size of this {@code IItemStack}'s item.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("maxStackSize")
@@ -135,9 +135,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the max stack size of this IItemStack's item. Values greater than 64 are generally not recommended.
+     * Sets the max stack size of this {@code IItemStack}'s item. Values greater than 64 are generally not recommended.
      *
-     * @param newMaxStackSize The new max stack size of this IItemStack's item.
+     * @param newMaxStackSize The new max stack size of this {@code IItemStack}'s item.
      *
      * @docParam newMaxStackSize 16
      */
@@ -151,9 +151,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the {@link Rarity} of this IItemStack's item. This mainly determines an item's name color, see the documentation on {@link Rarity} for more information.
+     * Returns the {@link Rarity} of this {@code IItemStack}'s item. This mainly determines an item's name color, see the documentation on {@link Rarity} for more information.
      *
-     * @return The {@link Rarity} of this IItemStack's item.
+     * @return The {@link Rarity} of this {@code IItemStack}'s item.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("rarity")
@@ -163,9 +163,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the {@link Rarity} of this IItemStack's item. This mainly determines an item's name color.
+     * Sets the {@link Rarity} of this {@code IItemStack}'s item. This mainly determines an item's name color.
      *
-     * @param newRarity The new {@link Rarity} of this IItemStack's item.
+     * @param newRarity The new {@link Rarity} of this {@code IItemStack}'s item.
      * 
      * @docParam newRarity <constant:minecraft:item/rarity:uncommon>
      */
@@ -179,9 +179,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the lore of this IItemStack. Lore is basically an extra tooltip that is stored in NBT rather than being added through code. The parameter is a vararg, every argument will result in one line of lore.
+     * Sets the lore of this {@code IItemStack}. Lore is basically an extra tooltip that is stored in NBT rather than being added through code. The parameter is a vararg, every argument will result in one line of lore.
      *
-     * @param lore The new Lore of this IItemStack. This is a vararg, so you can add as many arguments as you need.
+     * @param lore The new Lore of this {@code IItemStack}. This is a vararg, so you can add as many arguments as you need.
      * 
      * @docParam lore Component.literal("I am the lore.", "I speak for the trees.", "I do so in multiple lines.")
      */
@@ -203,9 +203,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the formatted display name of this IItemStack. This is what the player sees as the item's name when hovering over it. Note that the output of this method may be influenced by active resource packs, and will not produce reliable results on servers.
+     * Returns the formatted display name of this {@code IItemStack}. This is what the player sees as the item's name when hovering over it. Note that the output of this method may be influenced by active resource packs, and will not produce reliable results on servers.
      *
-     * @return The formatted display name of this IItemStack.
+     * @return The formatted display name of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("displayName")
     default Component getDisplayName() {
@@ -214,9 +214,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the display name of this IItemStack. This is what the player will see as the item's name when hovering over it.
+     * Sets the display name of this {@code IItemStack}. This is what the player will see as the item's name when hovering over it.
      *
-     * @param name The new display name of this IItemStack.
+     * @param name The new display name of this {@code IItemStack}.
      * 
      * @docParam name Component.literal("Premium Item")
      */
@@ -227,9 +227,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the hover name of this IItemStack. This will give the raw name, without the formatting that {@code getDisplayName()} applies.
+     * Returns the hover name of this {@code IItemStack}. This will give the raw name, without the formatting that {@code getDisplayName()} applies.
      *
-     * @return The hover name of this IItemStack.
+     * @return The hover name of this {@code IItemStack}.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("hoverName")
@@ -239,7 +239,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Clears any custom name set for this IItemStack.
+     * Clears any custom name set for this {@code IItemStack}.
      */
     @ZenCodeType.Method
     default void resetHoverName() {
@@ -248,9 +248,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack has a custom display name or not.
+     * Returns whether this {@code IItemStack} has a custom display name or not.
      *
-     * @return {@code true} if this IItemStack has a custom display name, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} has a custom display name, {@code false} if not.
      */
     @ZenCodeType.Getter("hasCustomHoverName")
     default boolean hasDisplayName() {
@@ -259,9 +259,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack has a foil effect (enchantment glint) or not. Mostly identical with {@code isEnchanted()}, however, some items have a foil effect on their own (such as enchanted golden apples).
+     * Returns whether this {@code IItemStack} has a foil effect (enchantment glint) or not. Mostly identical with {@code isEnchanted()}, however, some items have a foil effect on their own (such as enchanted golden apples).
      *
-     * @return {@code true} if this IItemStack has a foil effect, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} has a foil effect, {@code false} if not.
      */
     @ZenCodeType.Getter("hasFoil")
     default boolean hasFoil() {
@@ -270,9 +270,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack can be enchanted or not.
+     * Returns whether this {@code IItemStack} can be enchanted or not.
      *
-     * @return {@code true} if this IItemStack has a custom display name, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} has a custom display name, {@code false} if not.
      */
     @ZenCodeType.Getter("isEnchantable")
     default boolean isEnchantable() {
@@ -281,9 +281,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is enchanted or not.
+     * Returns whether this {@code IItemStack} is enchanted or not.
      *
-     * @return {@code true} if this IItemStack is enchanted, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is enchanted, {@code false} if not.
      */
     @ZenCodeType.Getter("isEnchanted")
     default boolean isEnchanted() {
@@ -292,9 +292,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the base repair cost of this IItemStack, or 0 if no base repair cost is set. The base repair cost is used in anvil repair calculations and has the value 0 for all vanilla items, but can be overridden by the {@code RepairCost} NBT tag.
+     * Returns the base repair cost of this {@code IItemStack}, or 0 if no base repair cost is set. The base repair cost is used in anvil repair calculations and has the value 0 for all vanilla items, but can be overridden by the {@code RepairCost} NBT tag.
      *
-     * @return The base repair cost of this IItemStack, or 0 if no base repair cost is set.
+     * @return The base repair cost of this {@code IItemStack}, or 0 if no base repair cost is set.
      */
     @ZenCodeType.Getter("baseRepairCost")
     default int getBaseRepairCost() {
@@ -303,9 +303,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the amount of this IItemStack.
+     * Returns the amount of this {@code IItemStack}.
      *
-     * @return The amount of this IItemStack.
+     * @return The amount of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("amount")
     default int getAmount() {
@@ -314,11 +314,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the amount of this IItemStack.
+     * Sets the amount of this {@code IItemStack}.
      *
      * <p>Note: This method is equivalent to using the * operator. This means that, for example, {@code <item:minecraft:diamond>.setAmount(8)} and {@code <item:minecraft:diamond> * 8} will have the same effect.</p>
      *
-     * @param amount The new amount of this IItemStack.
+     * @param amount The new amount of this {@code IItemStack}.
      *
      * @docParam amount 8
      */
@@ -329,11 +329,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Grows this IItemStack's amount by the given amount.
+     * Grows this {@code IItemStack}'s amount by the given amount.
      *
-     * @param amount The amount to grow this IItemStack by.
+     * @param amount The amount to grow this {@code IItemStack} by.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the new amount otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the new amount otherwise.
      */
     @ZenCodeType.Method
     default IItemStack grow(@ZenCodeType.OptionalInt(1) int amount) {
@@ -342,11 +342,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Shrinks this IItemStack's amount by the given amount.
+     * Shrinks this {@code IItemStack}'s amount by the given amount.
      *
-     * @param amount The amount to shrink this IItemStack by.
+     * @param amount The amount to shrink this {@code IItemStack} by.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the new amount otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the new amount otherwise.
      */
     @ZenCodeType.Method
     default IItemStack shrink(@ZenCodeType.OptionalInt(1) int amount) {
@@ -355,9 +355,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is stackable, meaning whether it have a stack size greater than 1 or not.
+     * Returns whether this {@code IItemStack} is stackable, meaning whether it have a stack size greater than 1 or not.
      *
-     * @return {@code true} if this IItemStack is stackable, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is stackable, {@code false} if not.
      */
     @ZenCodeType.Getter("stackable")
     default boolean isStackable() {
@@ -366,9 +366,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the durability damage of this IItemStack. Note that this represents the uses done so far, not the uses left.
+     * Sets the durability damage of this {@code IItemStack}. Note that this represents the uses done so far, not the uses left.
      *
-     * @param damage The new durability damage of this IItemStack.
+     * @param damage The new durability damage of this {@code IItemStack}.
      *
      * @docParam damage 50
      */
@@ -379,11 +379,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Adds an {@link AttributeModifier} to this IItemStack, using a specific UUID.
+     * Adds an {@link AttributeModifier} to this {@code IItemStack}, using a specific UUID.
      *
-     * <p>The UUID can be used to override existing attributes of an IItemStack with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
+     * <p>The UUID can be used to override existing attributes of an {@code IItemStack} with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
      *
-     * <p>By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
+     * <p>By default, attribute modifiers for an attribute already present on this {@code IItemStack} will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
      *
      * @param attribute        The {@link Attribute} of the modifier.
      * @param uuid             The UUID of the modifier.
@@ -391,7 +391,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
      * @param value            The value of the modifier.
      * @param operation        The operation of the modifier.
      * @param slotTypes        What slots the modifier is valid for.
-     * @param preserveDefaults Whether the modifiers that are already present on this IItemStack should be preserved or not.
+     * @param preserveDefaults Whether the modifiers that are already present on this {@code IItemStack} should be preserved or not.
      *
      * @docParam attribute <attribute:minecraft:generic.attack_damage>
      * @docParam uuid "8c1b5535-9f79-448b-87ae-52d81480aaa3"
@@ -408,11 +408,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
 
     /**
-     * Adds an {@link AttributeModifier} to this IItemStack, using a specific UUID.
+     * Adds an {@link AttributeModifier} to this {@code IItemStack}, using a specific UUID.
      *
-     * <p>The UUID can be used to override existing attributes of an IItemStack with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
+     * <p>The UUID can be used to override existing attributes of an {@code IItemStack} with this new modifier. Use {@code /ct hand attributes} to get the attribute UUIDs on an IItemStack. If you do not want to override an attribute modifier, but want to add one instead, you can use an online UUID generator of your choice.</p>
      *
-     * <p>By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
+     * <p>By default, attribute modifiers for an attribute already present on this {@code IItemStack} will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
      *
      * @param attribute        The {@link Attribute} of the modifier.
      * @param uuid             The UUID of the modifier.
@@ -420,7 +420,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
      * @param value            The value of the modifier.
      * @param operation        The operation of the modifier.
      * @param slotTypes        What slots the modifier is valid for.
-     * @param preserveDefaults Whether the modifiers that are already present on this IItemStack should be preserved or not.
+     * @param preserveDefaults Whether the modifiers that are already present on this {@code IItemStack} should be preserved or not.
      *
      * @docParam attribute <attribute:minecraft:generic.attack_damage>
      * @docParam uuid "8c1b5535-9f79-448b-87ae-52d81480aaa3"
@@ -445,16 +445,16 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Adds an {@link AttributeModifier} to this IItemStack. Unlike other overloads, which take a separate UUID parameter, this one creates a random UUID based on the given {@code name}.
+     * Adds an {@link AttributeModifier} to this {@code IItemStack}. Unlike other overloads, which take a separate UUID parameter, this one creates a random UUID based on the given {@code name}.
      *
-     * <p>By default, attribute modifiers for an attribute already present on this IItemStack will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
+     * <p>By default, attribute modifiers for an attribute already present on this {@code IItemStack} will replace any attribute modifiers for that attribute. This can be prevented by setting the optional {@code preserveDefaults} flag to {@code true}.</p>
      *
      * @param attribute        The {@link Attribute} of the modifier.
      * @param name             The name of the modifier.
      * @param value            The value of the modifier.
      * @param operation        The operation of the modifier.
      * @param slotTypes        What slots the modifier is valid for.
-     * @param preserveDefaults Whether the modifiers that are already present on this IItemStack should be preserved or not.
+     * @param preserveDefaults Whether the modifiers that are already present on this {@code IItemStack} should be preserved or not.
      *
      * @docParam attribute <attribute:minecraft:generic.attack_damage>
      * @docParam name "Extra Power"
@@ -478,7 +478,7 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the attributes and attribute modifiers on this IItemStack for the given {@link EquipmentSlot}.
+     * Returns the attributes and attribute modifiers on this {@code IItemStack} for the given {@link EquipmentSlot}.
      *
      * @param slotType The slot to get the attributes for.
      *
@@ -497,9 +497,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is damageable or not.
+     * Returns whether this {@code IItemStack} is damageable or not.
      *
-     * @return {@code true} if this IItemStack is damageable, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is damageable, {@code false} if not.
      */
     @ZenCodeType.Getter("damageableItem")
     default boolean isDamageableItem() {
@@ -508,9 +508,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack is damaged or not. The result of this method is equivalent to {@code getDamage() > 0}.
+     * Returns whether this {@code IItemStack} is damaged or not. The result of this method is equivalent to {@code getDamage() > 0}.
      *
-     * @return {@code true} if this IItemStack is damaged, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is damaged, {@code false} if not.
      */
     @ZenCodeType.Getter("damaged")
     default boolean isDamaged() {
@@ -519,9 +519,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the max damage (a.k.a. max durability) of this IItemStack.
+     * Returns the max damage (a.k.a. max durability) of this {@code IItemStack}.
      *
-     * @return The max damage of this IItemStack.
+     * @return The max damage of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("maxDamage")
     default int getMaxDamage() {
@@ -530,9 +530,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the max damage (a.k.a. max durability) of this IItemStack's item. Using {@code 0} will make the item unbreakable.
+     * Sets the max damage (a.k.a. max durability) of this {@code IItemStack}'s item. Using {@code 0} will make the item unbreakable.
      *
-     * @param newMaxDamage The new max damage of this IItemStack's item.
+     * @param newMaxDamage The new max damage of this {@code IItemStack}'s item.
      *
      * @docParam newMaxDamage 2000
      */
@@ -545,9 +545,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the unlocalized name (a.k.a. translation key) of this IItemStack.
+     * Returns the unlocalized name (a.k.a. translation key) of this {@code IItemStack}.
      *
-     * @return The unlocalized name of this IItemStack.
+     * @return The unlocalized name of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("descriptionId")
     default String getDescriptionId() {
@@ -556,11 +556,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the NBT tag for this IItemStack.
+     * Sets the NBT tag for this {@code IItemStack}.
      *
-     * @param tag The new tag of this IItemStack.
+     * @param tag The new tag of this {@code IItemStack}.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the new tag otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the new tag otherwise.
      *
      * @docParam tag {Potion: "minecraft:night_vision"}
      */
@@ -571,9 +571,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Removes the NBT tag from this IItemStack.
+     * Removes the NBT tag from this {@code IItemStack}.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the tag removed otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the tag removed otherwise.
      */
     @ZenCodeType.Method
     default IItemStack withoutTag() {
@@ -582,9 +582,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack has NBT tags or not. The result of this method is equivalent to {@code getTag() != null}.
+     * Returns whether this {@code IItemStack} has NBT tags or not. The result of this method is equivalent to {@code getTag() != null}.
      *
-     * @return {@code true} if this IItemStack has NBT tags, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} has NBT tags, {@code false} if not.
      */
     @ZenCodeType.Getter("hasTag")
     default boolean hasTag() {
@@ -593,9 +593,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the NBT tag of this IItemStack.
+     * Returns the NBT tag of this {@code IItemStack}.
      *
-     * @return The NBT tag of this IItemStack, or {@code null} if there are no NBT tags present.
+     * @return The NBT tag of this {@code IItemStack}, or {@code null} if there are no NBT tags present.
      */
     @ZenCodeType.Nullable
     @ZenCodeType.Getter("tag")
@@ -605,9 +605,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the NBT tag of this IItemStack, or creates a new one if absent. The result of this method is equivalent to {@code getTag() == null ? new MapData() : getTag()}.
+     * Returns the NBT tag of this {@code IItemStack}, or creates a new one if absent. The result of this method is equivalent to {@code getTag() == null ? new MapData() : getTag()}.
      *
-     * @return The NBT tag of this IItemStack, or an empty tag if there are no NBT tags present.
+     * @return The NBT tag of this {@code IItemStack}, or an empty tag if there are no NBT tags present.
      */
     @ZenCodeType.Method
     default IData getOrCreateTag() {
@@ -631,9 +631,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the use duration of this IItemStack, in ticks. {@code 72000} (1 hour) is used for items that can be used indefinitely, such as bows being drawn.
+     * Returns the use duration of this {@code IItemStack}, in ticks. {@code 72000} (1 hour) is used for items that can be used indefinitely, such as bows being drawn.
      *
-     * @return The use duration of this IItemStack.
+     * @return The use duration of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("useDuration")
     default int getUseDuration() {
@@ -642,9 +642,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack's use logic is fired on release, rather than when beginning to draw. In vanilla, this will return {@code true} for crossbows and {@code false} for all other items.
+     * Returns whether this {@code IItemStack}'s use logic is fired on release, rather than when beginning to draw. In vanilla, this will return {@code true} for crossbows and {@code false} for all other items.
      *
-     * @return {@code true} if this IItemStack's use logic is fired on release, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack}'s use logic is fired on release, {@code false} if not.
      */
     @ZenCodeType.Getter("useOnRelease")
     default boolean useOnRelease() {
@@ -653,9 +653,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the {@link FoodProperties} of this IItemStack's item.
+     * Returns the {@link FoodProperties} of this {@code IItemStack}'s item.
      *
-     * @return The {@link FoodProperties} of this IItemStack's item, or {@code null} if no {@link FoodProperties} are present.
+     * @return The {@link FoodProperties} of this {@code IItemStack}'s item, or {@code null} if no {@link FoodProperties} are present.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("food")
@@ -666,9 +666,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets the {@link FoodProperties} for this IItemStack's item.
+     * Sets the {@link FoodProperties} for this {@code IItemStack}'s item.
      *
-     * @param food The new {@link FoodProperties} for this IItemStack's item. If this is {@code null}, the item will no longer be edible.
+     * @param food The new {@link FoodProperties} for this {@code IItemStack}'s item. If this is {@code null}, the item will no longer be edible.
      *
      * @docParam food new FoodProperties(8, 0.8)
      */
@@ -682,9 +682,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack's item is edible or not. The result of this method is equivalent to {@code getFood() != null}.
+     * Returns whether this {@code IItemStack}'s item is edible or not. The result of this method is equivalent to {@code getFood() != null}.
      *
-     * @return {@code true} if this IItemStack's item is edible, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack}'s item is edible, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isEdible")
@@ -694,9 +694,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the burn time of this IItemStack, in ticks.
+     * Returns the burn time of this {@code IItemStack}, in ticks.
      *
-     * @return The burn time of this IItemStack.
+     * @return The burn time of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("burnTime")
     default int getBurnTime() {
@@ -705,9 +705,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns whether this IItemStack's item is immune to fire or not.
+     * Returns whether this {@code IItemStack}'s item is immune to fire or not.
      *
-     * @return {@code true} if this IItemStack's item is immune to fire, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack}'s item is immune to fire, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("fireResistant")
@@ -717,9 +717,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets whether this IItemStack's item should be immune to fire or not.
+     * Sets whether this {@code IItemStack}'s item should be immune to fire or not.
      *
-     * @param fireResistant Whether the IItemStack's item should be immune to fire or not.
+     * @param fireResistant Whether the {@code IItemStack}'s item should be immune to fire or not.
      *
      * @docParam fireResistant true
      */
@@ -733,13 +733,13 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns a {@link Percentaged} (weighted) IItemStack with the given percentage.
+     * Returns a {@link Percentaged} (weighted) {@code IItemStack} with the given percentage.
      *
      * <p>Note: This method is equivalent to using the % operator. This means that, for example, {@code <item:minecraft:diamond>.percent(50)} and {@code <item:minecraft:diamond> % 50} will have the same effect.</p>
      *
-     * @param percentage The percentage of the new IItemStack.
+     * @param percentage The percentage of the new {@code IItemStack}.
      *
-     * @return A {@link Percentaged} (weighted) IItemStack with the given percentage.
+     * @return A {@link Percentaged} (weighted) {@code IItemStack} with the given percentage.
      *
      * @docParam percentage 80
      */
@@ -757,9 +757,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     //    }
     
     /**
-     * Returns a {@link Percentaged} (weighted) instance of this IItemStack. The result of this method is equivalent to {@code percent(100)}.
+     * Returns a {@link Percentaged} (weighted) instance of this {@code IItemStack}. The result of this method is equivalent to {@code percent(100)}.
      *
-     * @return A {@link Percentaged} (weighted) instance of this IItemStack.
+     * @return A {@link Percentaged} (weighted) instance of this {@code IItemStack}.
      */
     @ZenCodeType.Caster(implicit = true)
     default Percentaged<IItemStack> asWeightedItemStack() {
@@ -768,9 +768,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the {@link Item} for this IItemStack's item.
+     * Returns the {@link Item} for this {@code IItemStack}'s item.
      *
-     * @return The {@link Item} for this IItemStack's item.
+     * @return The {@link Item} for this {@code IItemStack}'s item.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("definition")
@@ -781,34 +781,34 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns a mutable instance of this IItemStack.
+     * Returns a mutable instance of this {@code IItemStack}.
      *
-     * @return A mutable instance of this IItemStack.
+     * @return A mutable instance of this {@code IItemStack}.
      */
     @ZenCodeType.Method
     IItemStack asMutable();
     
     /**
-     * Returns an immutable instance of this IItemStack.
+     * Returns an immutable instance of this {@code IItemStack}.
      *
-     * @return An immutable instance of this IItemStack.
+     * @return An immutable instance of this {@code IItemStack}.
      */
     @ZenCodeType.Method
     IItemStack asImmutable();
     
     /**
-     * Returns whether this IItemStack is immutable or not. The result of this method is equivalent to {@code !isMutable()}.
+     * Returns whether this {@code IItemStack} is immutable or not. The result of this method is equivalent to {@code !isMutable()}.
      *
-     * @return {@code true} if this IItemStack is immutable, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is immutable, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isImmutable")
     boolean isImmutable();
     
     /**
-     * Returns whether this IItemStack is mutable or not. The result of this method is equivalent to {@code !isImmutable()}.
+     * Returns whether this {@code IItemStack} is mutable or not. The result of this method is equivalent to {@code !isImmutable()}.
      *
-     * @return {@code true} if this IItemStack is mutable, {@code false} if not.
+     * @return {@code true} if this {@code IItemStack} is mutable, {@code false} if not.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isMutable")
@@ -818,9 +818,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the damage value of this IItemStack. The damage value determines haw many times an item stack has already been used.
+     * Returns the damage value of this {@code IItemStack}. The damage value determines haw many times an item stack has already been used.
      *
-     * @return The damage value of this IItemStack.
+     * @return The damage value of this {@code IItemStack}.
      */
     @ZenCodeType.Getter("damage")
     default int getDamage() {
@@ -835,9 +835,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     //    }
 
     /**
-     * Returns the {@link Enchantment}s on this IItemStack and their respective levels.
+     * Returns the {@link Enchantment}s on this {@code IItemStack} and their respective levels.
      *
-     * @return An {@link Enchantment} => int map, where the map's value for an enchantment represents the enchantment's level on this IItemStack.
+     * @return An {@link Enchantment} => int map, where the map's value for an enchantment represents the enchantment's level on this {@code IItemStack}.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("enchantments")
@@ -847,11 +847,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Sets {@link Enchantment}s on this IItemStack.
+     * Sets {@link Enchantment}s on this {@code IItemStack}.
      *
-     * @param enchantments The {@link Enchantment} to set on this IItemStack. Must be an enchantment => int map, where the map's value for an enchantment represents the enchantment level that should be set.
+     * @param enchantments The {@link Enchantment} to set on this {@code IItemStack}. Must be an enchantment => int map, where the map's value for an enchantment represents the enchantment level that should be set.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the enchantments added otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the enchantments added otherwise.
      *
      * @docParam enchantments {<enchantment:minecraft:sharpness>: 5, <enchantment:minecraft:looting>: 1}
      */
@@ -863,9 +863,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the level of the given {@link Enchantment} on this IItemStack, or 0 if this IItemStack does not have the given enchantment.
+     * Returns the level of the given {@link Enchantment} on this {@code IItemStack}, or 0 if this {@code IItemStack} does not have the given enchantment.
      *
-     * @return The level of the given {@link Enchantment} on this IItemStack, or 0 if this IItemStack does not have the given enchantment.
+     * @return The level of the given {@link Enchantment} on this {@code IItemStack}, or 0 if this {@code IItemStack} does not have the given enchantment.
      */
     @ZenCodeType.Method
     default int getEnchantmentLevel(Enchantment enchantment) {
@@ -874,12 +874,12 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Enchants this IItemStack with the given {@link Enchantment}.
+     * Enchants this {@code IItemStack} with the given {@link Enchantment}.
      *
      * @param enchantment The {@link Enchantment} to add.
      * @param level       The level of the {@link Enchantment} to add.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the enchantment added otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the enchantment added otherwise.
      *
      * @docParam enchantment <enchantment:minecraft:sharpness>
      * @docParam level 3
@@ -895,11 +895,11 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Removes the given {@link Enchantment} from this IItemStack.
+     * Removes the given {@link Enchantment} from this {@code IItemStack}.
      *
      * @param enchantment The {@link Enchantment} to remove.
      *
-     * @return This IItemStack if mutable, a new IItemStack with the enchantment added otherwise.
+     * @return This {@code IItemStack} if mutable, a new {@code IItemStack} with the enchantment added otherwise.
      */
     @ZenCodeType.Method
     default IItemStack removeEnchantment(Enchantment enchantment) {
@@ -912,9 +912,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
     
     /**
-     * Returns the internal {@link ItemStack} for this IItemStack.
+     * Returns the internal {@link ItemStack} for this {@code IItemStack}.
      *
-     * @return The internal {@link ItemStack} for this IItemStack.
+     * @return The internal {@link ItemStack} for this {@code IItemStack}.
      */
     @ZenCodeType.Method
     @ZenCodeType.Caster(implicit = true)
@@ -934,9 +934,9 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
 
     /**
-     * Returns an immutable internal {@link ItemStack} for this IItemStack.
+     * Returns an immutable internal {@link ItemStack} for this {@code IItemStack}.
      *
-     * @return An immutable internal {@link ItemStack} for this IItemStack.
+     * @return An immutable internal {@link ItemStack} for this {@code IItemStack}.
      */
     @ZenCodeType.Method
     default ItemStack getImmutableInternal() {
@@ -945,8 +945,8 @@ public interface IItemStack extends IIngredient, IIngredientWithAmount {
     }
 
     /**
-     * Returns this IItemStack, cast to {@link IIngredientWithAmount}.
-     * @return This IItemStack, cast to {@link IIngredientWithAmount}.
+     * Returns this {@code IItemStack}, cast to {@link IIngredientWithAmount}.
+     * @return This {@code IItemStack}, cast to {@link IIngredientWithAmount}.
      */
     @ZenCodeType.Method
     @ZenCodeType.Caster(implicit = true)

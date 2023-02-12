@@ -7,7 +7,7 @@ import com.blamejared.crafttweaker_annotations.annotations.Document;
 import org.openzen.zencode.java.ZenCodeType;
 
 /**
- * Consists of an ingredient and an amount.
+ * An {@link IIngredient} with additional amount information. Typically used in modded machines, there are no vanilla recipes that make use of this.
  */
 @ZenRegister
 @Document("vanilla/api/ingredient/IIngredientWithAmount")
@@ -15,15 +15,17 @@ import org.openzen.zencode.java.ZenCodeType;
 public interface IIngredientWithAmount extends CommandStringDisplayable {
     
     /**
-     * The backing ingredient
+     * Returns the backing {@link IIngredient}.
+     *
+     * @return The backing {@link IIngredient}.
      */
     @ZenCodeType.Getter("ingredient")
     IIngredient getIngredient();
     
     /**
-     * Gets the amount of Items in the ItemStack
+     * Returns the amount of items in this {@code IIngredientWithAmount}.
      *
-     * @return ItemStack's amount
+     * @return The amount of items in this {@code IIngredientWithAmount}.
      */
     @ZenCodeType.Getter("amount")
     int getAmount();

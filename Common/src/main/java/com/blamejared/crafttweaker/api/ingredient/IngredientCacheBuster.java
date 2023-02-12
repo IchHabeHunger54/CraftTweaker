@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Used to bust the {@link Ingredient}#itemStacks cache when the {@link Ingredient} was resolved during a Server reload (When an instance of {@link net.minecraft.tags.TagManager} is available.
+ * Used to bust the {@link Ingredient} internal item stack cache when the {@link Ingredient} was resolved during a server reload. This class is called when an instance of {@link net.minecraft.tags.TagManager} is available.
  */
 public class IngredientCacheBuster {
     
@@ -15,7 +15,7 @@ public class IngredientCacheBuster {
     private static final List<Ingredient> ingredients = new ArrayList<>();
     
     /**
-     * Starts caching ingredients that are dissolved.
+     * Starts caching {@link Ingredient}s that are dissolved.
      */
     public static void claim() {
         

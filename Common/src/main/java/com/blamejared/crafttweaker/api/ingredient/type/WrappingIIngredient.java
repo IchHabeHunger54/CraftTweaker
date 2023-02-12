@@ -11,7 +11,7 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.Arrays;
 
 /**
- * An IIngredient that wraps a vanilla Ingredient.
+ * An {@link IIngredient} that wraps a vanilla {@link Ingredient}.
  *
  * @docParam this <tag:items:minecraft:wool>.asIIngredient();
  */

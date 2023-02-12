@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import org.openzen.zencode.java.ZenCodeType;
 
 /**
- * An IIngredient which matches all items
+ * An {@link IIngredient} that matches all items.
  *
  * @docParam this IIngredientAny.getInstance()
  */

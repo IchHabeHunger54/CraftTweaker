@@ -12,6 +12,13 @@ import com.blamejared.crafttweaker_annotations.annotations.Document;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.openzen.zencode.java.ZenCodeType;
 
+/**
+ * An {@link IIngredient} with a condition applied.
+ *
+ * <p>If multiple conditions are applied, these are placed in layers of base ingredients. This means that e.g. for two conditions, this ingredient's {@link IIngredientConditioned#base} is another {@link IIngredientConditioned}, whose base is a normal {@link IIngredient}.</p>
+ *
+ * @param <T> The {@link IIngredient} class, or a subclass thereof, of which {@link IIngredientConditioned#base} is an instance.
+ */
 @ZenRegister
 @ZenCodeType.Name("crafttweaker.api.ingredient.type.IngredientConditioned")
 @Document("vanilla/api/ingredient/type/IngredientConditioned")

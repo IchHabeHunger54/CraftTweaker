@@ -15,10 +15,19 @@ import org.openzen.zencode.java.ZenCodeType;
 @ZenCodeType.Name("crafttweaker.api.ingredient.transform.IIngredientTransformer")
 @Document("vanilla/api/ingredient/transform/IIngredientTransformer")
 public interface IIngredientTransformer<T extends IIngredient> {
-    
+    /**
+     * Applies the transformation to the given {@link IItemStack}.
+     *
+     * @param stack The {@link IItemStack} to transform.
+     *
+     * @return The result of applying the transformation to the given {@link IItemStack}.
+     */
     @ZenCodeType.Method
     IItemStack transform(IItemStack stack);
-    
+
+    /**
+     * Returns the string equivalent of this ingredient transformer.
+     */
     @ZenCodeType.Method
     String getCommandString(T transformedIngredient);
     
