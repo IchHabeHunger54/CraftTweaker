@@ -10,6 +10,10 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.Objects;
 
 /**
+ * {@code ByteData} represents a Java {@code byte} value. The range of {@code byte}s is {@code -128} to {@code 127}.
+ *
+ * <p>Note: When casting numbers to {@link IData}, the smallest type possible will be chosen. The order for number sizes is {@link ByteData}, {@link ShortData}, {@link IntData} and {@link LongData} (smallest to largest).</p>
+ *
  * @docParam this (4 as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.ByteData")

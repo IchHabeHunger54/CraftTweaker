@@ -8,11 +8,11 @@ import javax.annotation.Nullable;
 public class TagToDataConverter {
     
     /**
-     * Converts the given Tag to it's IData representation.
+     * Converts the given {@link Tag} to its {@link IData} representation.
      *
-     * @param tag The tag to convert.
+     * @param tag The {@link Tag} to convert.
      *
-     * @return The IData representation of the tag.
+     * @return The {@link IData} representation of the {@link Tag}.
      */
     @Nullable
     public static IData convert(Tag tag) {

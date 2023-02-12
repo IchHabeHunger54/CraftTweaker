@@ -16,6 +16,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * {@code ByteArrayData} represents a Java {@code byte} array (list). The range of {@code byte}s is {@code -128} to {@code 127}.
+ *
+ * <p>Note: When casting lists of numbers to {@link IData}, the smallest type possible will be chosen. The order for number sizes is {@link ByteArrayData}, {@link IntArrayData} and {@link LongArrayData} (smallest to largest).</p>
+ *
  * @docParam this ([4, 1, 2] as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.ByteArrayData")

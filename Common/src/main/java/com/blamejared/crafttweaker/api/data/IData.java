@@ -25,6 +25,8 @@ import java.util.function.Function;
 
 
 /**
+ * An {@code IData} object represents Minecraft NBT data that can be attached to blocks, items, entities etc. All other classes in this package inherit from this class.
+ *
  * @docParam this (1 as IData)
  */
 @ZenRegister(loaders = {CraftTweakerConstants.DEFAULT_LOADER_NAME, CraftTweakerConstants.TAGS_LOADER_NAME})
@@ -35,11 +37,7 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     /**
      * Creates a collection of the given IData members.
      *
-     * <p>
-     * This attempts to give the most accurate type for the given members, for example, if all the members are bytes, then it returns a ByteArrayData.
-     *
-     * However if the types are mixed or do not have a *ArrayData version, then a ListData is returned.
-     * </p>
+     * <p>If all contents are numbers, the most fitting {@code ArrayData} type will be used. For example, if all the members are {@link ByteData}, then a {@link ByteArrayData} will be returned, or if all members are of {@link ByteData} or {@link IntData}, then an {@link IntArrayData} will be returned. However, if types are mixed or do not have an {@code ArrayData} counterpart, then a {@link ListData} is used instead.</p>
      *
      * @param members The members to put in the list.
      *
@@ -99,11 +97,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     
     
     /**
-     * Adds the given IData to this IData.
+     * Adds the given {@code IData} to this {@code IData}.
      *
-     * @param other the other data to add.
+     * @param other The {@code IData} to add.
      *
-     * @return A new IData after adding the other data.
+     * @return A new {@code IData}, containing the result of adding the other {@code IData} to this {@code IData}.
      *
      * @docParam other 2
      */
@@ -115,11 +113,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Subtracts the given IData from this IData.
+     * Subtracts the given {@code IData} from this {@code IData}.
      *
-     * @param other the other data to remove.
+     * @param other The {@code IData} to subtract.
      *
-     * @return A new IData after removing the other data.
+     * @return A new {@code IData}, containing the result of subtracting the other {@code IData} from this {@code IData}.
      *
      * @docParam other 2
      */
@@ -130,11 +128,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Multiplies the given IData to this IData.
+     * Multiplies the given {@code IData} with this {@code IData}.
      *
-     * @param other the other data to multiply by.
+     * @param other The {@code IData} to multiply with.
      *
-     * @return A new IData after multiplying the other data.
+     * @return A new {@code IData}, containing the result of multiplying the other {@code IData} with this {@code IData}.
      *
      * @docParam other 2
      */
@@ -145,11 +143,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Divides the given IData from this IData.
+     * Divides this {@code IData} by the given {@code IData}.
      *
-     * @param other the other data to divide by.
+     * @param other The {@code IData} to divide by.
      *
-     * @return A new IData after dividing the other data.
+     * @return A new {@code IData}, containing the result of dividing this {@code IData} by the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -160,11 +158,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Applies a modulo operation to this IData against the other IData.
+     * Applies a modulo operation to this {@code IData} against the given {@code IData}.
      *
-     * @param other the other data to modulo by.
+     * @param other The {@code IData} to modulo against.
      *
-     * @return A new IData after applying a modulo operation.
+     * @return A new {@code IData}, containing the result of applying the modulo operation to this {@code IData} against the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -175,11 +173,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Concatenates the given IData to this IData.
+     * Concatenates the given {@code IData} to this {@code IData}.
      *
-     * @param other the other data to concatenate.
+     * @param other The {@code IData} to concatenate.
      *
-     * @return A new IData after concatenating the other data.
+     * @return A new {@code IData}, containing the result of concatenating the other {@code IData} to this {@code IData}.
      *
      * @docParam other 2
      */
@@ -190,11 +188,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Applies a bitwise OR (|) operation to this IData and the other IData
+     * Applies a bitwise OR (|) operation to this {@code IData} against the given {@code IData}.
      *
-     * @param other the other data.
+     * @param other The {@code IData} to OR against.
      *
-     * @return A new IData after applying a bitwise OR operation.
+     * @return A new {@code IData}, containing the result of applying the bitwise OR operation to this {@code IData} against the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -205,11 +203,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Applies a bitwise AND (&) operation to this IData and the other IData
+     * Applies a bitwise AND (&) operation to this {@code IData} against the given {@code IData}.
      *
-     * @param other the other data.
+     * @param other The {@code IData} to AND against.
      *
-     * @return A new IData after applying a bitwise AND operation.
+     * @return A new {@code IData}, containing the result of applying the bitwise AND operation to this {@code IData} against the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -220,11 +218,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Applies a bitwise XOR (^) operation to this IData and the other IData
+     * Applies a bitwise XOR (^) operation to this {@code IData} against the given {@code IData}.
      *
-     * @param other the other data.
+     * @param other The {@code IData} to XOR against.
      *
-     * @return A new IData after applying a bitwise XOR operation.
+     * @return A new {@code IData}, containing the result of applying the bitwise XOR operation to this {@code IData} against the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -235,9 +233,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Negates this IData.
+     * Negates this {@code IData}.
      *
-     * @return The negation of this IData.
+     * @return The negation of this {@code IData}.
      */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.NEG)
     default IData neg() {
@@ -246,14 +244,19 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     //TODO ZC bug thinks it is cat instead of invert
-    //    @ZenCodeType.Operator(ZenCodeType.OperatorType.INVERT)
-    //    default IData operatorInvert() {
+    ///**
+    // * Inverts this {@code IData}.
+    // *
+    // * @return The invertion of this {@code IData}.
+    // */
+    //@ZenCodeType.Operator(ZenCodeType.OperatorType.INVERT)
+    //default IData operatorInvert() {
     //
-    //        return notSupportedOperator(OperatorType.INVERT);
-    //    }
+    //    return notSupportedOperator(OperatorType.INVERT);
+    //}
     
     /**
-     * Applies a NOT (!) operation to this IData.
+     * Applies a NOT (!) operation to this {@code IData}.
      *
      * @return The result of the NOT operation.
      *
@@ -266,9 +269,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Puts the given value inside this IData at the given index.
+     * Puts the given value inside this {@code IData} at the given index. Will only work for {@link ListData}, {@link MapData} and the various {@code ArrayData} types.
      *
-     * @param index The key to store the data at
+     * @param index The key to store the data at.
      * @param value The data to store.
      *
      * @docParam index "key"
@@ -283,9 +286,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the data at the given index.
+     * Gets the data from this {@code IData} at the given index. Will only work for {@link ListData} and the various {@code ArrayData} types.
      *
-     * @param index The index to get
+     * @param index The index to get the data from.
      *
      * @return The data at the index.
      *
@@ -299,9 +302,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the data at the given key.
+     * Gets the data from this {@code IData} at the given key. Will only work for {@link MapData}.
      *
-     * @param key The key to get
+     * @param key The key to get the data from.
      *
      * @return The data at the key.
      *
@@ -315,15 +318,13 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Checks if this IData contains the other IData
+     * Checks if this {@code IData} contains the other {@code IData}.
      *
-     * <p>
-     * For most data types, this will check equality of the data, but for map data, it will check if the other data is a string, and then check if it contains a key with that name
-     * </p>
+     * <p>For most data types, this will check equality of the data. For {@link MapData}, it will check if the other data is a string, and then check if it contains a key with that name.</p>
      *
-     * @param other the other data to check
+     * @param other The other {@code IData} to check.
      *
-     * @return true if this data contains the other data.
+     * @return {@code true} if this {@code IData} contains the other {@code IData}, {@code false} if not.
      */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.CONTAINS)
     default boolean contains(IData other) {
@@ -332,11 +333,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Compares this IData to the other IData
+     * Compares this {@code IData} with the other {@code IData}.
      *
-     * @param other the data to be compared.
+     * @param other The {@code IData} to compare with.
      *
-     * @return The comparison result.
+     * @return The comparison result: {@code -1} if this {@code IData} is considered lesser than the other {@code IData}, {@code 1} if this {@code IData} is considered greater than the other {@code IData}, and {@code 0} if they are considered equal.
      *
      * @docParam other 5
      */
@@ -377,9 +378,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Sets the given value inside this IData at the given index.
+     * Sets the given value inside this {@code IData} at the given index.
      *
-     * @param name The key to store the data at
+     * @param name The key to store the data at.
      * @param data The data to store.
      *
      * @docParam index "key"
@@ -393,11 +394,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Checks if this IData is equal to the other IData.
+     * Checks if this {@code IData} is equal to the other {@code IData}.
      *
-     * @param other The data to check equality of.
+     * @param other The other {@code IData} to check equality of.
      *
-     * @return True if equal, false otherwise.
+     * @return {@code true} if this {@code IData} is equal to the other {@code IData}, {@code false} otherwise.
      */
     @ZenCodeType.Operator(ZenCodeType.OperatorType.EQUALS)
     default boolean equalTo(IData other) {
@@ -406,11 +407,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Applies a SHL (<<) operation to this data by the other data
+     * Applies a SHL (<<) operation to this {@code IData} by the given {@code IData}.
      *
-     * @param other The data to SHL by.
+     * @param other The {@code IData} to SHL by.
      *
-     * @return The result of the SHL operation.
+     * @return A new {@code IData}, containing the result of applying the SHL operation to this {@code IData} by the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -419,13 +420,13 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
         
         return notSupportedOperator(OperatorType.SHL);
     }
-    
+
     /**
-     * Applies a SHR (>>) operation to this data by the other data
+     * Applies a SHR (>>) operation to this {@code IData} by the given {@code IData}.
      *
-     * @param other The data to SHR by.
+     * @param other The {@code IData} to SHR by.
      *
-     * @return The result of the SHR operation.
+     * @return A new {@code IData}, containing the result of applying the SHR operation to this {@code IData} by the other {@code IData}.
      *
      * @docParam other 2
      */
@@ -436,9 +437,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a boolean.
+     * Casts this {@code IData} to a {@code bool}.
      *
-     * @return this data as a bool
+     * @return This {@code IData} as a {@code bool}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -448,9 +449,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a byte.
+     * Casts this {@code IData} to a {@code byte}.
      *
-     * @return this data as a byte
+     * @return This {@code IData} as a {@code byte}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -460,9 +461,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a short.
+     * Casts this {@code IData} to a {@code short}.
      *
-     * @return this data as a short
+     * @return This {@code IData} as a {@code short}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -472,9 +473,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to an int.
+     * Casts this {@code IData} to an {@code int}.
      *
-     * @return this data as an int
+     * @return This {@code IData} as an {@code int}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -484,9 +485,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a long.
+     * Casts this {@code IData} to a {@code long}.
      *
-     * @return this data as a long
+     * @return This {@code IData} as a {@code long}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -496,9 +497,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a float.
+     * Casts this {@code IData} to a {@code float}.
      *
-     * @return this data as a float
+     * @return This {@code IData} as a {@code float}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -508,9 +509,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a double.
+     * Casts this {@code IData} to a {@code double}.
      *
-     * @return this data as a double
+     * @return This {@code IData} as a {@code double}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -520,11 +521,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets an escaped string version of this IData, quotes are included in the output
+     * Casts this {@code IData} to a {@code string}. Note: This version includes escaped quotes around the result, use {@link IData#getAsString()} instead if you do not need the quotes.
      *
-     * <p>E.G {@code println(("hello" as IData).asString())} prints {@code "hello"}</p>
-     *
-     * @return The escaped string version of this IData.
+     * @return This {@code IData} as a {@code string}.
      */
     @ZenCodeType.Method
     default String asString() {
@@ -533,11 +532,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the literal string version of this IData.
+     * Casts this {@code IData} to a {@code string}. Note: This version does not include escaped quotes around the result, use {@link IData#asString()} instead if you need quotes.
      *
-     * <p>E.G {@code println(("hello" as IData).getAsString())} prints {@code hello}</p>
-     *
-     * @return The literal string version of this IData.
+     * @return This {@code IData} as a {@code string}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -547,9 +544,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a list.
+     * Casts this {@code IData} to a {@code List}.
      *
-     * @return this data as a list
+     * @return This {@code IData} as a {@code List}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -559,9 +556,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a map.
+     * Casts this {@code IData} to a {@code Map}.
      *
-     * @return this data as a map
+     * @return This {@code IData} as a {@code Map}.
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -571,9 +568,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a byte array.
+     * Casts this {@code IData} to a {@code byte} array (list).
      *
-     * @return this data as a byte array
+     * @return This {@code IData} as a {@code byte} array (list).
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -583,9 +580,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to an int array.
+     * Casts this {@code IData} to an {@code int} array (list).
      *
-     * @return this data as an int array
+     * @return This {@code IData} as an {@code int} array (list).
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -595,9 +592,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Casts this IData to a long array.
+     * Casts this {@code IData} to a {@code long} array (list).
      *
-     * @return this data as a long array
+     * @return This {@code IData} as a {@code long} array (list).
      */
     @ZenCodeType.Caster
     @ZenCodeType.Method
@@ -607,9 +604,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the length of this IData.
+     * Returns the length of this {@code IData}.
      *
-     * @return The length of this IData.
+     * @return The length of this {@code IData}.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("length")
@@ -619,9 +616,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the keys of this IData
+     * Returns the keys of this {@code IData}.
      *
-     * @return The keys of this IData.
+     * @return The keys of this {@code IData}.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("keys")
@@ -638,11 +635,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Merges the given data with this data.
+     * Merges the given {@code IData} with this {@code IData}.
      *
-     * @param other the data to merge
+     * @param other The {@code IData} to merge with.
      *
-     * @return the result of merging the datas.
+     * @return The result of merging the {@code IData}s.
      *
      * @docParam this {}
      */
@@ -653,9 +650,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Checks if this data is empty.
+     * Checks if this {@code IData} is empty.
      *
-     * @return True if empty.
+     * @return {@code true} if this {@code IData} is empty, {@code false} otherwise.
      */
     @ZenCodeType.Method
     @ZenCodeType.Getter("isEmpty")
@@ -665,9 +662,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the internal ID of this data.
+     * Returns the internal ID of this {@code IData}.
      *
-     * @return the intenral ID of this data.
+     * @return the internal ID of this {@code IData}.
      */
     @ZenCodeType.Method
     default byte getId() {
@@ -676,9 +673,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the internal Tag stored in this IData.
+     * Returns the internal {@link Tag} stored in this {@code IData}.
      *
-     * @return the vanilla Tag that this IData represents.
+     * @return The internal {@link Tag} that this {@code IData} represents.
      */
     Tag getInternal();
     
@@ -690,11 +687,11 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     <T> T accept(DataVisitor<T> visitor);
     
     /**
-     * Maps this IData to another IData based on the given operation.
+     * Maps this {@code IData} to another {@code IData}, based on the given function.
      *
-     * @param operation The operation to apply to this IData
+     * @param operation The function to apply to this {@code IData}.
      *
-     * @return A new IData from the operation
+     * @return A new {@code IData}, creating from applying the given function to this {@code IData}.
      *
      * @docParam operation (data) => 3
      */
@@ -705,9 +702,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Gets the type of this IData.
+     * Returns the {@link Type} of this {@code IData}.
      *
-     * @return The type of this IData.
+     * @return The {@link Type} of this {@code IData}.
      */
     Type getType();
     
@@ -732,9 +729,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Checks if this data supports being cast to a list.
+     * Checks if this {@code IData} supports being cast to a {@code List}.
      *
-     * @return True if it can be cast to a list, false otherwise.
+     * @return {@code true} if this {@code IData} can be cast to a {@code List}, {@code false} otherwise.
      */
     @ApiStatus.Internal
     default boolean isListable() {
@@ -743,9 +740,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Checks if this data supports being cast to a map.
+     * Checks if this {@code IData} supports being cast to a {@code Map}.
      *
-     * @return True if it can be cast to a map, false otherwise.
+     * @return {@code true} if this {@code IData} can be cast to a {@code Map}, {@code false} otherwise.
      */
     @ApiStatus.Internal
     default boolean isMappable() {
@@ -772,11 +769,9 @@ public interface IData extends Comparable<IData>, Iterable<IData> {
     }
     
     /**
-     * Used to specify what "type" of IData this is.
-     * <p>
-     * This is to make it easier to have a Map with an IData based key.
-     * <p>
-     * See {@link DataToTextComponentVisitor#DATA_TO_COMPONENT}
+     * Used to specify what "type" of {@code IData} this is. This is primarily to make it easier to have a {@code Map} with an {@code IData}-based key.
+     *
+     * <p>See also: {@link DataToTextComponentVisitor#DATA_TO_COMPONENT}</p>
      */
     enum Type {
         BOOL, BYTE_ARRAY, BYTE, DOUBLE, FLOAT, INT_ARRAY, INT, LIST, LONG_ARRAY, LONG, MAP, SHORT, STRING;

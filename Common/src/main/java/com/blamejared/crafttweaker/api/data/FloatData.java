@@ -10,7 +10,9 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.Objects;
 
 /**
- * @docParam this (8.5 as IData)
+ * {@code FloatData} represents a single-precision floating-point number NBT data value.
+ *
+ * @docParam this (8.25 as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.FloatData")
 @ZenRegister

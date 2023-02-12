@@ -16,6 +16,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
+ * {@code IntArrayData} represents a Java {@code int} array (list). The range of {@code int}s is about -2 billion to +2 billion (-2^31 to 2^31 - 1).
+ *
+ * <p>Note: When casting lists of numbers to {@link IData}, the smallest type possible will be chosen. The order for number sizes is {@link ByteArrayData}, {@link IntArrayData} and {@link LongArrayData} (smallest to largest).</p>
+ *
  * @docParam this ([4, 128, 256, 1024] as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.IntArrayData")

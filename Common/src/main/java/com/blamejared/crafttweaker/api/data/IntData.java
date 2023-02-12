@@ -10,7 +10,11 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.Objects;
 
 /**
- * @docParam this (8192 as IData)
+ * {@code IntData} represents a Java {@code int} value. The range of {@code int}s is about -2 billion to +2 billion (-2^31 to 2^31 - 1).
+ *
+ * <p>Note: When casting numbers to {@link IData}, the smallest type possible will be chosen. The order for number sizes is {@link ByteData}, {@link ShortData}, {@link IntData} and {@link LongData} (smallest to largest).</p>
+ *
+ * @docParam this (100000 as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.IntData")
 @ZenRegister

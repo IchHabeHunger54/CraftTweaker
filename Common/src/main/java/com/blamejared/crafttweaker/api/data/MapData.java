@@ -17,6 +17,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * {@code MapData} represents a key-value map of NBT data values.
+ *
  * @docParam this (Hello: "World", Somewhere: "Over the rainbow")
  */
 @ZenCodeType.Name("crafttweaker.api.data.MapData")
@@ -53,10 +55,9 @@ public class MapData implements IData {
     }
     
     /**
-     * Adds all entries from the given map into this one.
-     * Can override existing keys.
+     * Adds all entries from the given map into this one. Will override existing keys.
      *
-     * @param map The other entries to be added to this map
+     * @param map The other entries to be added to this map.
      *
      * @docParam map {Hello: "Goodbye", Item: "Bedrock"}
      */

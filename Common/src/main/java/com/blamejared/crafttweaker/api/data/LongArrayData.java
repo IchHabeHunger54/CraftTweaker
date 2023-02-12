@@ -16,7 +16,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * @docParam this ([100000, 800000, 50000] as IData)
+ * {@code LongArrayData} represents a Java {@code long} array (list). The range of {@code long}s is about -9 * 10^18 to +9 * 10^18 (-2^63 to 2^63 - 1).
+ *
+ * <p>Note: When casting lists of numbers to {@link IData}, the smallest type possible will be chosen. The order for number sizes is {@link ByteArrayData}, {@link IntArrayData} and {@link LongArrayData} (smallest to largest).</p>
+ *
+ * @docParam this ([100000, 8000000000000, 50000] as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.LongArrayData")
 @ZenRegister

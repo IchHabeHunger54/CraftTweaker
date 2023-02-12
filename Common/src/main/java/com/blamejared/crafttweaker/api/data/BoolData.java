@@ -10,9 +10,9 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.Objects;
 
 /**
- * Careful with BoolData: While it works for specifying boolean attributes in JSON syntax,
- * using it in Tags will instead use a {@link ByteData} object. Reason for this is that
- * Minecraft does not have Boolean NBT values.
+ * {@code BoolData} represents a boolean NBT data value.
+ *
+ * <p>Note that while this will work flawlessly with JSON, NBT actually uses {@link ByteData} objects with the values {@code 1b} (for {@code true}) and {@code 0b} (for {@code false}) instead. This is because the NBT specification does not include boolean values.</p>
  *
  * @docParam this (true as IData)
  */
@@ -33,7 +33,10 @@ public class BoolData implements IData {
         this.internalValue = internalValue;
         this.internalData = new ByteData(ByteTag.valueOf(asBool()));
     }
-    
+
+    /**
+     * @return This object's {@link ByteData} equivalent.
+     */
     @ZenCodeType.Caster
     @ZenCodeType.Method
     public ByteData getByteData() {

@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * {@code ListData} represents a list of NBT data values.
+ *
  * @docParam this (["Hello", "World", "!"] as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.ListData")

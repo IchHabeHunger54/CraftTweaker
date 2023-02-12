@@ -12,6 +12,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
+ * {@code StringData} represents a string NBT data value.
+ *
  * @docParam this ("Hello" as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.StringData")

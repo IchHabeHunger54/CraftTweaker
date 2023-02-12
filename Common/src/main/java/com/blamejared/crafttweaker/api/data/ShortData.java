@@ -10,7 +10,11 @@ import org.openzen.zencode.java.ZenCodeType;
 import java.util.Objects;
 
 /**
- * @docParam this (1058 as IData)
+ * {@code ShortData} represents a Java {@code short} value. The range of {@code short}s is {@code -65536} to {@code 65535}.
+ *
+ * <p>Note: When casting numbers to {@link IData}, the smallest type possible will be chosen. The order for number sizes is {@link ByteData}, {@link ShortData}, {@link IntData} and {@link LongData} (smallest to largest).</p>
+ *
+ * @docParam this (1000 as IData)
  */
 @ZenCodeType.Name("crafttweaker.api.data.ShortData")
 @ZenRegister

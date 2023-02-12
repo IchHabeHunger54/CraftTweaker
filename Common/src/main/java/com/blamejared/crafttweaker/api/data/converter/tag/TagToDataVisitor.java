@@ -31,9 +31,7 @@ import net.minecraft.nbt.TagVisitor;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Visitor to convert from Vanilla's Tag to CraftTweaker's Data system.
- *
- * You shouldn't be calling this class directly, you should be using {@link TagToDataConverter} as that takes into account a null Tag.
+ * Visitor to convert from vanilla's Tag to CraftTweaker's Data system. Do not call this class directly, use {@link TagToDataConverter#convert(Tag)} instead (this checks nullability).
  */
 public class TagToDataVisitor implements TagVisitor {
     

@@ -15,34 +15,34 @@ import java.util.stream.Stream;
 public interface IBracketDumperInfo extends Command<CommandSourceStack> {
     
     /**
-     * Gets the name of the sub-command used in {@code ct dump} to obtain all values of a specific bracket handler.
+     * Returns the name of the sub-command used in {@code ct dump} to obtain all values of a specific bracket handler.
      *
-     * @return The name of the sub-command.
+     * @return The name of the sub-command used in {@code ct dump} to obtain all values of a specific bracket handler.
      *
      * @since 9.1.0
      */
     String subCommandName();
     
     /**
-     * Returns a human-readable representation of what the values dumped represent.
+     * Returns a human-readable representation of what the dumped values represent.
      *
-     * @return The description.
+     * @return A human-readable representation of what the dumped values represent.
      *
      * @since 9.1.0
      */
     MutableComponent description();
     
     /**
-     * Gets the name of the file on which all dumped values will be written to.
+     * Returns the name of the file all dumped values will be written to.
      *
-     * @return The file name where the dump resides.
+     * @return The name of the file all dumped values will be written to.
      *
      * @since 9.1.0
      */
     String dumpedFileName();
     
     /**
-     * Gets a {@link Stream} containing all values that the bracket handler can recognize.
+     * Returns a {@link Stream} containing all values that the bracket handler can recognize.
      *
      * <p>In case returning all values is impossible, a valid and complete subset of them can be returned instead. This
      * should be kept to a minimum to ensure complete information wherever possible.</p>
